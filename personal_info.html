@@ -6,14 +6,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <title>Personal Info</title>
+    <style>
+        .gender, .sexuality{
+            min-width:100%;
+        }
+
+        .button {
+            text-align: center;
+            min-width: 260px;
+            min-height: 40px;
+        }
+
+        .input-border {
+            border: 0;
+            border-bottom: 1px solid #e6e6e6;
+            min-width: 240px;
+            text-align: center;
+            background: transparent;
+        }
+
+        .section-border {
+            border: 1px solid #e6e6e6;
+        }
+
+        .center {
+            text-align: center;
+        
+        }
+        
+        .form-div {
+            min-width:80%;
+            width: 80% !important;
+            margin: auto;
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="name">
-                <h4>My name is</h4>
-                <input type="text">
-                <p>This is how it will appear in Dater.</p>
+        <h1 class="center">Personal</h1>
+
+        <div class="form-wrapper">
+
+            <!-- Name  -->
+            <div class="row my-3 center">
+                <div class="name section-border rounded form-div p-3">
+                    <h4>My name is</h4>
+                    <input type="text" class="input-border">
+                    <p class="pt-2">This is how it will appear in Dater.</p>
+                </div>
+            </div>
+
+            <!-- Date of birth -->
+            <div class="row my-3 center">
+                <div class="dob section-border rounded form-div p-3">
+                    <h4>My birthday is</h4>
+                    <input type="date" name="date-of-birth" id="dob" class="input-border">
+                    <p class="pt-2">Your age will be public.</p>
+                </div>
+            </div>
+
+            <!-- Gender  -->
+            <div class="row my-3">
+                <div class="gender section-border rounded form-div p-3">
+                    <h4 class="center">Gender</h4>
+                    <!-- Female  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Female</p>
+                        </div>
+                        <div class="col-2">
+                            <input type="radio" name="gender" value="female">
+                        </div>
+                    </div>
+
+                    <!-- Male  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Male</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="gender" value="male">
+                        </div>
+                    </div>
+
+                    <!-- Non-Binary  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Non-Binary</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="gender" value="non-binary">
+                        </div>
+                    </div>
+
+                    <!-- Transgender Female  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Transgender Female</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="gender" value="transgender female">
+                        </div>
+                    </div>
+
+                    <!-- Transgender Male  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Transgender Male</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="gender" value="transgender male">
+                        </div>
+                    </div>
+
+                    <!-- Transgender  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Transgender</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="gender" value="transgender">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sexulaity  -->
+            <div class="row my-3">
+                <div class="sexuality section-border rounded form-div p-3">
+                    <h4 class="center">Sexulaity</h4>
+
+                    <!-- Straight  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Straight</p>
+                        </div>
+                        <div class="col-2">
+                            <input type="radio" name="sexuality" value="straight">
+                        </div>
+                    </div>
+
+                    <!-- Gay  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Gay</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="sexuality" value="gay">
+                        </div>
+                    </div>
+
+                    <!-- Lesbian  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Lesbian</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="sexuality" value="lesbian">
+                        </div>
+                    </div>
+
+                    <!-- Bisexual  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Bisexual</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="sexuality" value="bisexual">
+                        </div>
+                    </div>
+
+                    <!-- Pansexual  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Pansexual</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="sexuality" value="pansexual">
+                        </div>
+                    </div>
+
+                    <!-- Transgender  -->
+                    <div class="row">
+                        <div class="col-10">
+                            <p>Transgender</p>
+                        </div>
+
+                        <div class="col-2">
+                            <input type="radio" name="sexuality" value="transgender">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="center">
+                <button class="button btn-success rounded-pill">Submit</button>
             </div>
         </div>
     </div>
