@@ -4,16 +4,98 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
     <title>Edit Profile</title>
+    <style>
+            .input-border {
+                border: 0;
+                border-bottom: 1px solid #e6e6e6;
+                min-width: 280px;
+                text-align: center;
+                background: transparent;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        #btn {
+            min-width: 120px;
+        }
+
+        .fas {
+            color: #fe877c;
+        }
+
+        #bottom{
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            border-radius: 2rem 2rem 0px 0px;
+            border-top: 1px solid #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="nav-bar">
-            <nav>
-                <a href="#">Back</a>
-                <h1></h1>
+            <nav class="row">
+                <div class="col-2 text-left"><i class="fas fa-arrow-left"></i></div>
+                <div class="col-7 text-center"><h4>Edit Profile</h4></div>
+                <div class="col-2 text-right"><i class="fas fa-ellipsis-h"></i></div>
             </nav>
         </div>
+
+        <div class="form-wrapper mt-2">
+            <ul class="p-2">
+                <li>
+                    <h5>About Karter</h5>
+                    <input type="text" class="input-border">
+                </li>
+                
+                <li class="mt-4">
+                    <h5>Age</h5>
+                    <input type="text" class="input-border">
+                </li>
+
+                <li class="mt-4">
+                    <h5>Living In</h5>
+                    <input type="text" class="input-border">
+                </li>
+
+                <li class="mt-4">
+                    <h5>Gender</h5>
+                    <input type="text" class="input-border">
+                </li>
+
+                <li class="mt-4">
+                    <h5>Passion</h5>
+                    <input type="text" class="input-border">
+                </li>
+
+                <li class="mt-4">
+                    <h5>Profession</h5>
+                    <input type="text" class="input-border">
+                </li>
+
+                <li class="mt-4">
+                    <h5>Social Media</h5>
+                    <input type="text" class="input-border">
+                </li>
+
+                <li class="mt-4 ml-0" >
+                    <h5>Show my instagram photos</h5>
+                    <input type="text" class="input-border">
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <footer>
+        <div class="text-center shadow-lg" id="bottom">
+            <button class="btn btn-success rounded-pill my-3" id="btn">Done</button>
+        </div>
+    </footer>
 </body>
 </html>
