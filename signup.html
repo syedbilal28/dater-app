@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>Sign Up</title>
+
+    <style>
+        @font-face {
+            font-family: dater;
+            src: url(dater-icons.ttf);
+        }
+
+        *{
+            font-family: dater;
+        }
+
+        .top {
+            height: 50vh;
+        }
+
+        .email-heading {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .description, .form-details {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Styling images -->
+        <div class="top">
+            <!-- Images here -->
+        </div>
+
+        <div class="bottom d-flex flex-column justify-content-center">
+
+            <!-- Description -->
+            <div class="description text-align-center">
+                <div>
+                    <p class="email-heading">What's your email?</p>
+                </div>
+
+                <div>
+                    <p>Don't lose access to your account, verify your email</p>
+                </div>
+            </div>
+
+            <!-- Form  -->
+            <div class="form-details">
+
+                <form action="POST">
+                    <input type="email" name="email" placeholder="Enter your email" id="email" class="rounded-pill">
+                </form>
+
+                <div class="d-flex justify-content-center my-4">
+                    <div><button class="btn btn-success rounded-pill">Continue</butto></div>
+                    <div class="text-muted mx-2"><p>or</p></div>
+                    <div><button class="btn">Sign in with google</button></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
