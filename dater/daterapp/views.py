@@ -13,3 +13,6 @@ def signup(request):
     return render(request,"signup.html")
 def app_rules(request):
     return render(request,"welcome_rules.html")
+
+def login(request):
+    return render(request,"login_page.html")
