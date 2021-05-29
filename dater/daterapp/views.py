@@ -26,7 +26,7 @@ def login(request):
 def ChatPage(request):
     loggedin_user=UserSerializer(request.user).data
     context={"logged_in_user":loggedin_user}
-    return render(request,'uno_startup/inbox.html',context)
+    return render(request,'all_chats.html',context)
 def Inbox(request,username):
 
     thread_objs= Thread.objects.by_user(user=request.user.profile)
