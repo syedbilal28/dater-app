@@ -1,3 +1,5 @@
+{% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <title>Sign Up</title>
 
     <style>
-        @font-face {
-            font-family: dater;
-            src: url(dater-icons.ttf);
-        }
+        /* @font-face {
+            
+            src: url({% static "dater-icons.ttf" %});
+        } */
 
         *{
-            font-family: dater;
+            font-family: 'Source Sans Pro', sans-serif;
         }
 
         .top {
@@ -23,13 +27,30 @@
 
         .email-heading {
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 600;
+            color:#424242;
         }
 
         .description, .form-details {
             text-align: center;
         }
-
+        #signup-image{
+            min-height:200px;
+        }
+        #dont-loose{
+            color:#757575;
+        }
+        #email{
+            border:1px solid #BDBDBD;
+            width: 80%;
+            padding:5px;
+            /* text-align: center; */
+        }
+        .continue{
+            background-color: #FE877C;
+            border:none;
+            padding: 10px 20px;
+        }
     </style>
 </head>
 <body>
@@ -38,9 +59,10 @@
         <!-- Styling images -->
         <div class="top">
             <!-- Images here -->
+            <img src="{% static 'signup_img.jpg' %}" alt="signup_img" id="signup-image">
         </div>
 
-        <div class="bottom d-flex flex-column justify-content-center">
+        <div class="bottom d-flex flex-column justify-content-center my-2">
 
             <!-- Description -->
             <div class="description text-align-center">
@@ -48,22 +70,22 @@
                     <p class="email-heading">What's your email?</p>
                 </div>
 
-                <div>
-                    <p>Don't lose access to your account, verify your email</p>
+                <div class="my-2">
+                    <p id="dont-loose">Don't lose access to your account, verify your email</p>
                 </div>
             </div>
 
             <!-- Form  -->
             <div class="form-details">
 
-                <form action="POST">
+                <form action="{% url 'signup' %}">
                     <input type="email" name="email" placeholder="Enter your email" id="email" class="rounded-pill">
                 </form>
 
                 <div class="d-flex justify-content-center my-4">
-                    <div><button class="btn btn-success rounded-pill">Continue</butto></div>
-                    <div class="text-muted mx-2"><p>or</p></div>
-                    <div><button class="btn">Sign in with google</button></div>
+                    <div><button class="btn btn-success rounded-pill continue">Continue</butto></div>
+                    <div class="text-muted mx-3 align-baseline"><p class="mt-2">or</p></div>
+                    <div><a href="{% provider_login_url 'google'%}"><button class="btn"><img src="{% static 'google icon.png' %}" class="mx-2"></img>Sign in with google</button></a></div>
                 </div>
 
             </div>
