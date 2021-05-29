@@ -77,4 +77,7 @@ class ChatMessage(models.Model):
     class Meta:
         ordering=('timestamp',)
 
-
+class LoginVerify(models.Model):
+    profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
+    status=models.IntegerField(default=0)
+    code=models.CharField(max_length=6)

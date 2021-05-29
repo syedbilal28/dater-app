@@ -4,6 +4,6 @@ urlpatterns=[
     path("",views.signup,name="signup"),
     path("welcome/",views.app_rules,name="rules"),
     path("login/",views.login,name="login"),
-    path("chat/",views.chat,name="chat")
+    path("chat/",views.ChatPage,name="chat")
 
 ]

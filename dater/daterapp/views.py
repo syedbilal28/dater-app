@@ -1,26 +1,50 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from .models import Thread,ChatMessage,Profile
+from .models import Thread,ChatMessage,Profile,LoginVerify
 from .serializers import ThreadSerializer,ChatMessageSerializer,UserSerializer
 import json
 from django.http import HttpResponse,JsonResponse
-
+from django.core.mail import send_mail
+from django.conf import settings
+import random
 # Create your views here.
 def signup(request):
     if request.method =="POST":
         email=request.POST.get("email")
         username=email.split("@")[0]
         user=User.objects.create_user(username,email,username)
-        user=user.save()
-        profile=Profile.obejcts.create(user=user)
+        user.save()
+        profile=Profile.objects.create(user=user)
+        # return HttpResponse(status=20/0)
+        return redirect("rules")
+
 
     return render(request,"signup.html")
 def app_rules(request):
     return render(request,"welcome_rules.html")
 
 def login(request):
+    # if request.method== "POST":
+    #     verification_code=random.randint(11111,999999)
+    #     login_verify=LoginVerify.objects.create(profile=request.user.profile,status=0,code=verification_code)
+    #     return 
     return render(request,"login_page.html")
 
+def create_verification_code(request):
+    if request.method== "POST":
+            verification_code=random.randint(11111,999999)
+            email=request.POST.get("email")
+            profile=User.objects.get(email=email).profile
+            login_verify=LoginVerify.objects.create(profile=profile,status=0,code=verification_code)
+            return redirect("codeinput")
+    else:
+        return render(request,'email_input.html')
+
+def CodeInput(request):
+    if request.method == "POST":
+        pass
+    else:
+        return render(request,"input_code.html")
 
 
 def ChatPage(request):
