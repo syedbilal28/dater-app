@@ -1,4 +1,4 @@
-{% laod socialaccounts %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,15 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+       
     <title>Login</title>
     <style>
         .top {
             height: 40vh;
         }
-
+        *{
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .container{
+            padding-left: 0px;
+            padding-right: 0px;
+        }
         .bottom {
             height: 60vh;
-            background-color: pink;
+            background-color: #FF7074;
             border-top-left-radius: 120px;
         }
 
@@ -30,29 +39,39 @@
             min-height: 100%;
             max-width: 100vw;
         }
+        .rounded-pill{
+            border: none;
+            width: 80vw;
+        }
+        .btn-icon{
+            max-height: 25px;
+        }
+        #agreement{
+            color:white;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="top">
+        <div class="top d-flex flex-column justify-content-center align-items-center">
             <!-- Image  -->
+            <img src="{% static 'dater logo.png' %}" alt="">
         </div>
 
-        <div class="bottom">
-            <div class="content-wrapper flex-column">
-                <div class="policy row">
-                    <p>By clicking <strong>"Login"</strong> you agree with our <strong>Terms</strong>. Learn how we processyour data in our <strong>Privacy Policy</strong> and <strong>Cookies Policy.</strong></p>
+        <div class="bottom d-flex flex-column justify-content-center align-items-cen <!-- <d content-wrapper "> -->
+                <div class="policy px-4 text-center">
+                    <p id="agreement">By clicking "Login" you agree with our <strong>Terms</strong>. Learn how we processyour data in our <strong>Privacy Policy</strong> and <strong>Cookies Policy.</strong></p>
                 </div>
 
-                <div class="buttons row">
-                    <div class="mt-5">
-                        <button class="rounded-pill buttons">Log in with Phone Number</button>
+                <div class="buttons text-center my-4">
+                    <div class="text-center my-3">
+                        <button class="rounded-pill buttons py-2"><img src="{% static 'vector-5.png' %}" class="btn-icon mx-2"></img>Log in with Phone Number</button>
                     </div>
-                    <div class="mt-2">
-                        <button class="rounded-pill buttons">Log in with Facebook</button>
+                    <div class="text-center my-3">
+                        <button class="rounded-pill buttons py-2"> <img src="{% static 'google icon.png' %}" class="btn-icon mx-2"></img>Log in with Google</button>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 </body>

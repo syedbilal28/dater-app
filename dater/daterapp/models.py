@@ -8,11 +8,11 @@ from django.db.models import Q
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     about=models.CharField(max_length=1000,null=True,blank=True)
-    age=models.IntegerField()
-    city=models.ForeignKey(City,on_delete=models.CASCADE)
-    gender=models.CharField(max_length=50,null=True)
-    passions=models.CharField(max_length=500)
-    profession=models.CharField(max_length=100)
+    age=models.IntegerField(null=True,blank=True)
+    city=models.ForeignKey(City,on_delete=models.CASCADE,null=True,blank=True)
+    gender=models.CharField(max_length=50,null=True,blank=True)
+    passions=models.CharField(max_length=500,null=True,blank=True)
+    profession=models.CharField(max_length=100,null=True,blank=True)
 class ThreadManager(models.Manager):
     def by_user(self, user):
         qlookup = Q(first=user) | Q(second=user)
