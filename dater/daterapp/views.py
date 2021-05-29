@@ -16,3 +16,6 @@ def app_rules(request):
 
 def login(request):
     return render(request,"login_page.html")
+
+def chat(request):
+    return render(request,"all_chats.html")
