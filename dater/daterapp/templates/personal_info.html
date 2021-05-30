@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <title>Personal Info</title>
     <style>
@@ -40,179 +41,225 @@
             margin: auto;
             background-color: #f2f2f2;
         }
+        .fas{
+            color: #fe877c;
+        }
+        input:focus{
+            outline: none;
+        }
+        
+    input[type='radio']:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: white;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #fe877c;
+        
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+    .rounded-pill{
+        width: 80%;
+        background-color: #fe877c;
+        border: none;
+    }
     </style>
 </head>
 <body>
+    <nav class="row p-3">
+        <div class="col-2 text-left in-block"><i class="fas fa-arrow-left"></i></div>
+        <div class="col-7 text-center in-block"><h4>Personal Info</h4></div>
+    </nav>
     <div class="container">
-        <h1 class="center">Personal</h1>
+        
+        <form action="{% url 'CreateProfile' %}" method="POST">
+        {% csrf_token %}
+            <div class="form-wrapper">
 
-        <div class="form-wrapper">
-
-            <!-- Name  -->
-            <div class="row my-3 center">
-                <div class="name section-border rounded form-div p-3">
-                    <h4>My name is</h4>
-                    <input type="text" class="input-border">
-                    <p class="pt-2">This is how it will appear in Dater.</p>
-                </div>
-            </div>
-
-            <!-- Date of birth -->
-            <div class="row my-3 center">
-                <div class="dob section-border rounded form-div p-3">
-                    <h4>My birthday is</h4>
-                    <input type="date" name="date-of-birth" id="dob" class="input-border">
-                    <p class="pt-2">Your age will be public.</p>
-                </div>
-            </div>
-
-            <!-- Gender  -->
-            <div class="row my-3">
-                <div class="gender section-border rounded form-div p-3">
-                    <h4 class="center">Gender</h4>
-                    <!-- Female  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Female</p>
-                        </div>
-                        <div class="col-2">
-                            <input type="radio" name="gender" value="female">
-                        </div>
-                    </div>
-
-                    <!-- Male  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Male</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="gender" value="male">
-                        </div>
-                    </div>
-
-                    <!-- Non-Binary  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Non-Binary</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="gender" value="non-binary">
-                        </div>
-                    </div>
-
-                    <!-- Transgender Female  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Transgender Female</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="gender" value="transgender female">
-                        </div>
-                    </div>
-
-                    <!-- Transgender Male  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Transgender Male</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="gender" value="transgender male">
-                        </div>
-                    </div>
-
-                    <!-- Transgender  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Transgender</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="gender" value="transgender">
-                        </div>
+                <!-- Name  -->
+                <div class="row my-3 center">
+                    <div class="name section-border rounded form-div p-3">
+                        <h4>My name is</h4>
+                        <input type="text" class="input-border" name="name">
+                        <p class="pt-2">This is how it will appear in Dater.</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Sexulaity  -->
-            <div class="row my-3">
-                <div class="sexuality section-border rounded form-div p-3">
-                    <h4 class="center">Sexulaity</h4>
-
-                    <!-- Straight  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Straight</p>
-                        </div>
-                        <div class="col-2">
-                            <input type="radio" name="sexuality" value="straight">
-                        </div>
+                <!-- Date of birth -->
+                <div class="row my-3 center">
+                    <div class="dob section-border rounded form-div p-3">
+                        <h4>My birthday is</h4>
+                        <input type="date" name="date-of-birth" id="dob" class="input-border">
+                        <p class="pt-2">Your age will be public.</p>
                     </div>
+                </div>
 
-                    <!-- Gay  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Gay</p>
+                <!-- Gender  -->
+                <div class="row my-3">
+                    <div class="gender section-border rounded form-div p-3">
+                        <h4 class="center">Gender</h4>
+                        <!-- Female  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Female</p>
+                            </div>
+                            <div class="col-2">
+                                <input type="radio" name="gender" value="female">
+                            </div>
                         </div>
 
-                        <div class="col-2">
-                            <input type="radio" name="sexuality" value="gay">
-                        </div>
-                    </div>
+                        <!-- Male  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Male</p>
+                            </div>
 
-                    <!-- Lesbian  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Lesbian</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="sexuality" value="lesbian">
-                        </div>
-                    </div>
-
-                    <!-- Bisexual  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Bisexual</p>
+                            <div class="col-2">
+                                <input type="radio" name="gender" value="male">
+                            </div>
                         </div>
 
-                        <div class="col-2">
-                            <input type="radio" name="sexuality" value="bisexual">
-                        </div>
-                    </div>
+                        <!-- Non-Binary  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Non-Binary</p>
+                            </div>
 
-                    <!-- Pansexual  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Pansexual</p>
-                        </div>
-
-                        <div class="col-2">
-                            <input type="radio" name="sexuality" value="pansexual">
-                        </div>
-                    </div>
-
-                    <!-- Transgender  -->
-                    <div class="row">
-                        <div class="col-10">
-                            <p>Transgender</p>
+                            <div class="col-2">
+                                <input type="radio" name="gender" value="non-binary">
+                            </div>
                         </div>
 
-                        <div class="col-2">
-                            <input type="radio" name="sexuality" value="transgender">
+                        <!-- Transgender Female  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Transgender Female</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="gender" value="transgender female">
+                            </div>
+                        </div>
+
+                        <!-- Transgender Male  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Transgender Male</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="gender" value="transgender male">
+                            </div>
+                        </div>
+
+                        <!-- Transgender  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Transgender</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="gender" value="transgender">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="center">
-                <button class="button btn-success rounded-pill">Submit</button>
+                <!-- Sexulaity  -->
+                <div class="row my-3">
+                    <div class="sexuality section-border rounded form-div p-3">
+                        <h4 class="center">Sexuality</h4>
+
+                        <!-- Straight  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Straight</p>
+                            </div>
+                            <div class="col-2">
+                                <input type="radio" name="sexuality" value="straight">
+                            </div>
+                        </div>
+
+                        <!-- Gay  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Gay</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="sexuality" value="gay">
+                            </div>
+                        </div>
+
+                        <!-- Lesbian  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Lesbian</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="sexuality" value="lesbian">
+                            </div>
+                        </div>
+
+                        <!-- Bisexual  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Bisexual</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="sexuality" value="bisexual">
+                            </div>
+                        </div>
+
+                        <!-- Pansexual  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Pansexual</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="sexuality" value="pansexual">
+                            </div>
+                        </div>
+
+                        <!-- Transgender  -->
+                        <div class="row">
+                            <div class="col-10">
+                                <p>Transgender</p>
+                            </div>
+
+                            <div class="col-2">
+                                <input type="radio" name="sexuality" value="transgender">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="center">
+                    <button type="submit" class="button btn-success rounded-pill">Submit</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 </html>

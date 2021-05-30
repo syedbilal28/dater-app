@@ -7,6 +7,8 @@ from django.http import HttpResponse,JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 import random
+from django.contrib.auth import login, logout,authenticate
+from datetime import datetime
 # Create your views here.
 def signup(request):
     if request.method =="POST":
@@ -59,6 +61,8 @@ def CodeInput(request):
         verify_object= verifylogin[-1]
         if verify_object.code == verification_code:
             verifylogin.status=1
+            user=User.objects.get(email=email)
+            login(request,user)
             return redirect("CreateProfile")
         else:
             return render(request,"input_code.html",{"email":email})
@@ -69,9 +73,35 @@ def CodeInput(request):
 
 def CreateProfile(request):
     if request.method == "POST":
-        pass
+        print(request.POST)
+        user_name=request.POST.get("name")
+        dob=request.POST.get("date-of-birth")
+        gender=request.POST.get("gender")
+        sexuality=request.POST.get("sexuality")
+        profile=Profile.objects.get(user=request.user)
+        user=request.user
+        full_name= user_name.split(" ")
+        if len(full_name) <=2:
+            first_name=full_name[0]
+            last_name=full_name[1]
+        else:
+            first_name=''
+            for i in range(len(full_name)-2):
+                first_name+=f"{full_name[i]} "
+            last_name= full_name[-1]
+        
+        user.first_name=first_name
+        user.last_name=last_name
+        profile.dob= datetime.strptime(dob,"%Y-%m-%d")
+        profile.gender=gender
+        profile.sexuality=sexuality
+        profile.save()
+        user.save()
+        return redirect("AddPhotos")
     else:
-        return render(request,"edit_profile.html")
+        return render(request,"personal_info.html")
+def AddPhotos(request):
+    return HttpResponse(status=200)
 def ChatPage(request):
     loggedin_user=UserSerializer(request.user).data
     context={"logged_in_user":loggedin_user}

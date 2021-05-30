@@ -11,6 +11,8 @@ class Profile(models.Model):
     age=models.IntegerField(null=True,blank=True)
     city=models.ForeignKey(City,on_delete=models.CASCADE,null=True,blank=True)
     gender=models.CharField(max_length=50,null=True,blank=True)
+    sexuality=models.CharField(max_length=20,null=True,default=None)
+    dob=models.DateField(null=True,default=None)
     passions=models.CharField(max_length=500,null=True,blank=True)
     profession=models.CharField(max_length=100,null=True,blank=True)
 class ThreadManager(models.Manager):

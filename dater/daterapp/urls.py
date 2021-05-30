@@ -6,6 +6,7 @@ urlpatterns=[
     path("login/",views.login,name="login"),
     path("chat/",views.ChatPage,name="chat"),
     path("createverification/",views.create_verification_code,name="CreateVerification"),
-    path("codeinput/",views.CodeInput,name="CodeInput")
+    path("codeinput/",views.CodeInput,name="CodeInput"),
+    path("create-profile/",views.CreateProfile,name="CreateProfile")
 
 ]
