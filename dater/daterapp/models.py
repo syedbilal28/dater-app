@@ -2,8 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from cities_light.models import City
 from django.db.models import Q
+import os
+from django.conf import settings
 # Create your models here.
 
+def to_upload(instance,filename):
+    # path_to_upload=os.path(instance.username+"/ProfilePicture")
+    directory= os.path.join(settings.MEDIA_ROOT,instance.profile.user.username)
+    try:
+        os.stat(directory)
+    except:
+        os.mkdir(directory)
+    directory_profile = os.path.join(directory,'Images')
+    try:
+        os.stat(directory_profile)
+    except:
+        os.mkdir(directory_profile)
+    return f"{instance.profile.user.username}/Images/{filename}"
 
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -15,6 +30,10 @@ class Profile(models.Model):
     dob=models.DateField(null=True,default=None)
     passions=models.CharField(max_length=500,null=True,blank=True)
     profession=models.CharField(max_length=100,null=True,blank=True)
+    # images=models.ForeignKey(related_name="images")
+class ProfileImages(models.Model):
+    profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
+    image=models.ImageField(upload_to=to_upload)
 class ThreadManager(models.Manager):
     def by_user(self, user):
         qlookup = Q(first=user) | Q(second=user)

@@ -7,6 +7,7 @@ urlpatterns=[
     path("chat/",views.ChatPage,name="chat"),
     path("createverification/",views.create_verification_code,name="CreateVerification"),
     path("codeinput/",views.CodeInput,name="CodeInput"),
-    path("create-profile/",views.CreateProfile,name="CreateProfile")
+    path("create-profile/",views.CreateProfile,name="CreateProfile"),
+    path("add-photos/",views.AddPhotos,name="AddPhotos")
 
 ]

@@ -4,3 +4,4 @@ django-allauth
 channels
 channels-redis
 django-cities-light
+pillow

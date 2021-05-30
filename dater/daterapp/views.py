@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from .models import Thread,ChatMessage,Profile,LoginVerify
+from .models import Thread,ChatMessage,Profile,LoginVerify,ProfileImages
 from .serializers import ThreadSerializer,ChatMessageSerializer,UserSerializer
 import json
 from django.http import HttpResponse,JsonResponse
@@ -101,6 +101,13 @@ def CreateProfile(request):
     else:
         return render(request,"personal_info.html")
 def AddPhotos(request):
+    if request.method== "POST":
+        print(request.FILES,request.POST)
+        for key,value in request.FILES.items():
+            ProfileImages.objects.create(profile=request.user.profile,image=value)
+        return HttpResponse(status=200)
+    else:
+        return render(request,"add_photos.html")
     return HttpResponse(status=200)
 def ChatPage(request):
     loggedin_user=UserSerializer(request.user).data

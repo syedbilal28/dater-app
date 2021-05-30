@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <script src="{% static 'js/load.js' %}"></script>
+    
+    
+    
+    
+    <title>Add Photos</title>
+    <style>
+        *{
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .fas{
+            color: #fe877c;
+        }
+        .uploaded-image{
+            max-width: 200px;
+            max-height: 200px;
+        }
+        .d-flex{
+            max-width: 90vw;
+            flex-wrap: wrap;
+            min-height: 62vh;
+        }
+        #image-inp{
+            display: none;
+        }
+        #inp-trigger{
+            background: transparent;
+            border: none;
+            max-width: 50px;
+        }
+        #inp{
+            max-width: 50px;
+        }
+        #heading{
+            font-size: 24px;
+            opacity: 0.8;
+        }
+        .light{
+            opacity: 0.8;
+        }
+        #done{
+            width: 30%;
+            background-color:#fe877c;
+            border: none;
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="row p-3">
+        <div class="col-2 text-left in-block"><i class="fas fa-arrow-left"></i></div>
+        <div class="col-7 text-center in-block"><h4 id="heading">Add Photos</h4></div>
+    </nav>
+    <div class="container">
+        <div id="image-uploader">
+            <div class="row justify-content-center">
+                <p class="light">Hold, drag and drop to reorder</p>
+            </div>
+            <div class="row text-center justify-content-center">
+                <form action="{% url 'AddPhotos' %}" method="POST" id="photos-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <input type="file" name="my_file" id='image-inp' multiple>
+                </form>
+                <button id="inp-trigger"><img src="{% static 'Vector-15.png' %}" alt="" id="inp"></button>
+            </div>
+            
+            <div class="d-flex m-3" id="image-display">
+                
+            </div>
+        </div>
+    </div>
+    <footer class="text-center">
+        <button class="btn btn-primary" id="done">Done</button>
+    </footer>
+    <script>
+        var files =[]
+        var count=1
+        $("#done").on("click",function(){
+            // $("#photos-form").submit()
+            var form_data=new FormData()
+            $(files).each(function(){
+                form_data.append(`images${count}`,this)
+                count+=1
+            })
+            
+            
+            
+            let csrftoken=getCookie("csrftoken")
+            
+            $.ajax({
+            url:"{% url 'AddPhotos' %}",
+            method:"post",
+            datatype:"json",
+            processData:false, 
+            contentType:false,
+            "headers":{
+                "X-CSRFToken":csrftoken
+                },
+            data:form_data,
+            success:function (data){
+                console.log("Sent")
+            }
+            })
+            
+        })
+        $("#inp-trigger").on("click",function(){
+            $("#image-inp").trigger("click")
+        })
+        inpFile=document.querySelector('#image-inp')
+        inpFile.addEventListener("change",function(){
+        l= this.files.length
+        const file = this.files[l-1]
+        files.push(file)
+        console.log(file)
+        if (file) {
+            const reader=new FileReader()
+            
+            reader.addEventListener("load",function(){
+                var div_for_img=`<div class="rounded p-2">
+                    <img src="${this.result}" alt="" class="uploaded-image rounded">
+                </div>`
+                document.querySelector("#image-display").innerHTML+=div_for_img
+            
+            })
+            reader.readAsDataURL(file);
+
+
+        }
+
+        });
+    </script>
+</body>
+</html>
