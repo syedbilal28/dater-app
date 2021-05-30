@@ -32,21 +32,46 @@ def login(request):
 
 def create_verification_code(request):
     if request.method== "POST":
-            verification_code=random.randint(11111,999999)
-            email=request.POST.get("email")
-            profile=User.objects.get(email=email).profile
-            login_verify=LoginVerify.objects.create(profile=profile,status=0,code=verification_code)
-            return redirect("codeinput")
+        print(request.POST)
+        verification_code=random.randint(1111,9999)
+        email=request.POST.get("email")
+        profile=User.objects.get(email=email).profile
+        login_verify=LoginVerify.objects.create(profile=profile,status=0,code=verification_code)
+        subject = 'Welcome to Dater'
+        message = f'This is your verification code, enter this code on your profile to log in {verification_code}'
+        recepient = email
+        send_mail(subject,message, settings.EMAIL_HOST_USER, [recepient], fail_silently = False)
+        context={"email":email}
+        return render(request,"CodeInput",context)
     else:
         return render(request,'email_input.html')
 
 def CodeInput(request):
     if request.method == "POST":
-        pass
+        num1=request.POST.get("num1")
+        num2=request.POST.get("num2")
+        num3=request.POST.get("num3")
+        num4=request.POST.get("num4")
+        email=request.POST.get("email")
+        verification_code=num1+num2+num3+num4
+        verification_code=verification_code.replace(" ","")
+        verifylogin= LoginVerify.objects.filter(profile=request.user.profile)
+        verify_object= verifylogin[-1]
+        if verify_object.code == verification_code:
+            verifylogin.status=1
+            return redirect("CreateProfile")
+        else:
+            return render(request,"input_code.html",{"email":email})
+
+
     else:
         return render(request,"input_code.html")
 
-
+def CreateProfile(request):
+    if request.method == "POST":
+        pass
+    else:
+        return render(request,"edit_profile.html")
 def ChatPage(request):
     loggedin_user=UserSerializer(request.user).data
     context={"logged_in_user":loggedin_user}

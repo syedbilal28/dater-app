@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/load.js' %}"></script>
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+    <style>
+        *{
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        .fas{
+            color: #fe877c;
+        }
+        .in-block{
+            display: inline-block;
+        }
+        .code-input{
+            border:none;
+            border-bottom: 1px solid #d9d9d9;
+            /* width:60vw; */
+            text-align: center;
+            max-width: 50px;
+        }
+        #light{
+            color: #4d4d4d;
+        }
+        .btn{
+            border:1px solid #fe877c;
+            /* border:none; */
+            color: #fe877c;
+            
+            border-radius: 2rem;
+
+        }
+        #dial-wrapper{
+            background-color: #f2f2f2;
+            border-radius: 1rem;
+            font-size: 24px;
+            border: 1px solid #e6e6e6;
+        }
+        #submit{
+            background-color: #fe877c;
+            color: white;
+            border: none;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="row p-3">
+        <div class="col-2 text-left in-block"><i class="fas fa-arrow-left"></i></div>
+        <div class="col-7 text-center in-block"><h4>My code is</h4></div>
+    </nav>
+    <div class="container">
+        <div id="form-wrapper" class="d-flex flex-column justify-content-center align-items-center">
+                <!-- <div id="data-wrapper"> -->
+                    <form action="{% url 'CodeInput' %}" method="POST" id="code-form">
+                        <div class="row d-flex justify-content-center m-2">
+                            <input type="hidden" name="email" value="{{ email }}">
+                            <div class="col-2 mx-2 p-0"><input type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class="code-input" name="num1" maxlength="1"></div>
+                            <div class="col-2 mx-2 p-0"><input type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class="code-input" name="num2" maxlength="1"></div>
+                            <div class="col-2 mx-2 p-0"><input type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class="code-input" name="num3" maxlength="1"></div>
+                            <div class="col-2 mx-2 p-0"><input type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class="code-input" name="num4" maxlength="1"></div>
+                        
+                        
+                        </div>
+                    </form>
+                    <div class="row m-2 px-4 text-center">
+                        <p><span id="light">Please enter the 4-digit verification code we sent you at</span><strong>{{ email }}</strong></p>
+                    </div>
+                    <div class="row m-2 text-center">
+                        <form action="{% url 'CreateVerification' %}" method="POST">
+                            <input type="hidden" name="email" value="{{ email }}">
+                            <button type="submit" class="btn btn-outline-warning" id="resend">Resend</button>
+                        </form>
+                    </div>
+                <!-- </div> -->
+            
+        </div>
+        <div id="dial" class="my-5">
+            <div id="dial-wrapper" class="mx-5 ">
+                <div class="row text-center">
+                    <div class="col p-2 py-4 num-input" data-value="1">1</div>
+                    <div class="col p-2 py-4 num-input" data-value="2">2</div>
+                    <div class="col p-2 py-4 num-input" data-value="3">3</div>
+                </div>
+                <div class="row text-center">
+                    <div class="col p-2 py-4 num-input" data-value="4">4</div>
+                    <div class="col p-2 py-4 num-input" data-value="5">5</div>
+                    <div class="col p-2 py-4 num-input" data-value="6">6</div>
+                </div>
+                <div class="row text-center">
+                    <div class="col p-2 py-4 num-input" data-value="7">7</div>
+                    <div class="col p-2 py-4 num-input" data-value="8">8</div>
+                    <div class="col p-2 py-4 num-input" data-value="9">9</div>
+                </div>
+            </div>
+            <div class="row text-center d-block my-5">
+                <button class="btn btn-primary" id="submit">Submit</button>
+            </div>
+            
+        </div>
+    </div>
+    <footer></footer>
+    <script>
+        $(".num-input").on("click",function(){
+            console.log($(this).attr('data-value'))
+            const input=$(this).attr('data-value')
+            const code_input=document.querySelectorAll(".code-input")
+            l= code_input.length
+            for(var i=0; i<l; i++){
+                if (code_input[i].value == ""){
+                    code_input[i].value=input
+                    break
+                } 
+            }
+            
+        })
+        $("#submit").on("click",()=>{
+            $("#code-form").submit()
+        })
+    </script>
+</body>
+</html>
