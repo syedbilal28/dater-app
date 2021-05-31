@@ -22,6 +22,20 @@ def to_upload(instance,filename):
         os.mkdir(directory_profile)
     return f"{instance.profile.user.username}/Images/{filename}"
 
+def to_upload_chat(instance,filename):
+    # path_to_upload=os.path(instance.username+"/ProfilePicture")
+    directory= os.path.join(settings.MEDIA_ROOT,instance.thread.pk)
+    try:
+        os.stat(directory)
+    except:
+        os.mkdir(directory)
+    directory_profile = os.path.join(directory,'Images')
+    try:
+        os.stat(directory_profile)
+    except:
+        os.mkdir(directory_profile)
+    return f"{instance.thread.pk}/Images/{filename}"
+
 class Profile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     about=models.CharField(max_length=1000,null=True,blank=True)
@@ -109,10 +123,11 @@ class Thread(models.Model):
 class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(Profile, verbose_name='sender', on_delete=models.CASCADE)
-    message = models.TextField()
+    message = models.TextField(null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     status= models.CharField(max_length=10,default="Sent")
     react_status= models.CharField(max_length=10,default="false")
+    # media=models.ImageField(upload_to=to_upload_chat,blank=True)
     # reply=models.ForeignKey('ChatMessage', default=None, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:

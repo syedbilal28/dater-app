@@ -8,7 +8,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from .models import Thread,ChatMessage
 from django.contrib.auth.models import User
 import channels.layers
-from .serializers import ChatMessageSerializer
+from .serializers import ChatMessageSerializer,ProfileSerializer
 from django.db.models.signals import post_save
 from asgiref.sync import async_to_sync
 from django.dispatch import receiver
@@ -137,7 +137,27 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     }
                 )
 
-
+    @staticmethod
+    @receiver(post_save,sender=ChatMessage)
+    def notification_handler(sender,instance,created,*args,**kwargs):
+        if instance.media is not None:
+            message={
+                'message_type':"media",
+                'image':instance.media.url,
+                "timestamp":str(instance.timestamp.time().strftime("%H:%M")),
+                "by":ProfileSerializer(instance.user).data
+            }
+            
+            user=str(instance.to.user.pk)
+            groupname=f"thread__{instance.thread.pk}"
+            channel_layer = channels.layers.get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                        groupname,
+                        {
+                            'type': 'chat_message',
+                            'text': message
+                        }
+                    )
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({

@@ -166,3 +166,14 @@ def Chat(request,username):
     context={"thread":thread,"profile":profile}
     return render(request,"chat.html",context)
     # return JsonResponse({"messages":messages_serialized})
+
+def UploadImage(request):
+    if request.method =="POST":
+        print(request.FILES)
+        media= request.FILES.get("image",None)
+        other_user=request.POST.get("other_user")
+        thread=Thread.objects.get_or_new(user=request.user,other_username=other_user)
+        message=ChatMessage.objects.create(thread=Thread,media=media,user=request.user)
+        return HttpResponse(status=200)
+        
+    

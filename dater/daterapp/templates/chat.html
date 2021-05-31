@@ -182,15 +182,17 @@
                 // document.querySelector("#image-display").innerHTML+=div_for_img
                 var form_data= new FormData()
                 form_data.append("image",this)
+                form_data.append("other_user",loc.pathname)
                 $.ajax({
                         url: '/uploadimg/',
                         type: 'POST',
-                        data: data,
+                        data: form_data,
                         processData: false,
                         contentType: false,
                         success: function(data) {
                             data = JSON.parse(data); // converts string of json to object
-                            $('#photo').html('<img src="'+data.url+ '" />');
+                            alert("sent")
+                            // $('#photo').html('<img src="'+data.url+ '" />');
                             // <h2>title</h2> You do not use 'title' in your project !!
                             // alt=title see previous comment
                         }
