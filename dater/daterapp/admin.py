@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Profile, ChatMessage,Thread,LoginVerify
+from django.contrib.gis.admin import OSMGeoAdmin
+from .models import Profile, ChatMessage,Thread,LoginVerify,ProfileImages
 # Register your models here.
-admin.site.register(Profile)
+@admin.register(Profile)
+class ProfileAdmin(OSMGeoAdmin):
+    list_display=("user","location")
 admin.site.register(LoginVerify)
+admin.site.register(ProfileImages)

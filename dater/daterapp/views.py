@@ -9,6 +9,9 @@ from django.conf import settings
 import random
 from django.contrib.auth import login, logout,authenticate
 from datetime import datetime
+from django.contrib.gis.geos import fromstr,GEOSGeometry
+
+from django.contrib.gis.db.models.functions import Distance
 # Create your views here.
 def signup(request):
     if request.method =="POST":
@@ -25,7 +28,7 @@ def signup(request):
 def app_rules(request):
     return render(request,"welcome_rules.html")
 
-def login(request):
+def Login(request):
     # if request.method== "POST":
     #     verification_code=random.randint(11111,999999)
     #     login_verify=LoginVerify.objects.create(profile=request.user.profile,status=0,code=verification_code)
@@ -44,7 +47,7 @@ def create_verification_code(request):
         recepient = email
         send_mail(subject,message, settings.EMAIL_HOST_USER, [recepient], fail_silently = False)
         context={"email":email}
-        return render(request,"CodeInput",context)
+        return render(request,"input_code.html",context)
     else:
         return render(request,'email_input.html')
 
@@ -57,12 +60,18 @@ def CodeInput(request):
         email=request.POST.get("email")
         verification_code=num1+num2+num3+num4
         verification_code=verification_code.replace(" ","")
-        verifylogin= LoginVerify.objects.filter(profile=request.user.profile)
-        verify_object= verifylogin[-1]
+        
+        user=User.objects.get(email=email)
+        user=authenticate(request,username=user.username,password=user.username)
+        if user is not None:
+            login(request,user)
+        print(request.user)
+        verifylogin= LoginVerify.objects.filter(profile=Profile.objects.get(user=request.user))
+        verify_object= verifylogin.last()
         if verify_object.code == verification_code:
             verifylogin.status=1
             user=User.objects.get(email=email)
-            login(request,user)
+            
             return redirect("CreateProfile")
         else:
             return render(request,"input_code.html",{"email":email})
@@ -78,6 +87,8 @@ def CreateProfile(request):
         dob=request.POST.get("date-of-birth")
         gender=request.POST.get("gender")
         sexuality=request.POST.get("sexuality")
+        longitude=request.POST.get("longitude")
+        latitude=request.POST.get("latitude")
         profile=Profile.objects.get(user=request.user)
         user=request.user
         full_name= user_name.split(" ")
@@ -95,6 +106,8 @@ def CreateProfile(request):
         profile.dob= datetime.strptime(dob,"%Y-%m-%d")
         profile.gender=gender
         profile.sexuality=sexuality
+        location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+        profile.location=location
         profile.save()
         user.save()
         return redirect("AddPhotos")
@@ -108,7 +121,27 @@ def AddPhotos(request):
         return HttpResponse(status=200)
     else:
         return render(request,"add_photos.html")
-    return HttpResponse(status=200)
+    
+def GalleryView(request):
+    # profiles= Profile.objects.all()
+    profiles=Profile.objects.annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+    context={"profiles":profiles}
+
+    return render(request,"gallery_view.html",context)
+def ProfileView(request,username):
+    user=User.objects.get(username=username)
+    profiles=Profile.objects.annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+    for i in profiles:
+        if i.user==user:
+            profile=i
+            break
+    # profile=profiles.filter(user=user)
+    distance=Distance(profile.location,request.user.profile.location)
+
+    # print(help(distance))
+    context={"profile":profile,"distance":distance}
+    
+    return render(request,"classic_view.html",context)
 def ChatPage(request):
     loggedin_user=UserSerializer(request.user).data
     context={"logged_in_user":loggedin_user}

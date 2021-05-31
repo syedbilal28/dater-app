@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'cities_light',
+    'django.contrib.gis',
     
     # "django.contrib.sites.models.Site",
 ]
@@ -85,8 +86,12 @@ TEMPLATES = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'gis',
+        'USER': 'user001',
+        'PASSWORD': '123456789',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -128,6 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+import os
+MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+MEDIA_URL="/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

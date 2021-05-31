@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="{% static 'js/load.js'%}"></script>
     <title>Personal Info</title>
     <style>
         .gender, .sexuality{
@@ -254,6 +256,8 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="longitude" id="longitude">
+                <input type="hidden" name="latitude" id="latitude">
 
                 <div class="center">
                     <button type="submit" class="button btn-success rounded-pill">Submit</button>
@@ -261,5 +265,24 @@
             </div>
         </form>
     </div>
+    <script>
+        getLocation()
+        function getLocation() {
+    if (navigator.geolocation) {
+        return navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    }
+
+    function showPosition(position) {
+    // alert("Latitude: " + position.coords.latitude +"<br>Longitude: " + position.coords.longitude);
+        // return[position.coords.longitude,position.coords.latitude]
+        document.querySelector("#longitude").value=position.coords.longitude
+        document.querySelector("#latitude").value=position.coords.latitude
+
+    }
+        // alert(loc)
+    </script>
 </body>
 </html>

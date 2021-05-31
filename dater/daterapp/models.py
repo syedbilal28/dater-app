@@ -1,9 +1,11 @@
-from django.db import models
+# from django.db import models
 from django.contrib.auth.models import User
 from cities_light.models import City
 from django.db.models import Q
 import os
 from django.conf import settings
+from django.contrib.gis.db import models
+
 # Create your models here.
 
 def to_upload(instance,filename):
@@ -30,10 +32,25 @@ class Profile(models.Model):
     dob=models.DateField(null=True,default=None)
     passions=models.CharField(max_length=500,null=True,blank=True)
     profession=models.CharField(max_length=100,null=True,blank=True)
+    location = models.PointField(null=True)
     # images=models.ForeignKey(related_name="images")
 class ProfileImages(models.Model):
-    profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
-    image=models.ImageField(upload_to=to_upload)
+    profile=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="images")
+    image=models.ImageField(upload_to=to_upload,verbose_name="Image")
+
+class Like(models.Model):
+    liked_by=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="liker")
+    liked=models.ForeignKey(Profile,on_delete=models.CASCADE)
+
+class Star(models.Model):
+    starred_by=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="starrer")
+    starred=models.ForeignKey(Profile,on_delete=models.CASCADE)
+
+class DisLike(models.Model):
+    disliked_by=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="disliker")
+    disliked=models.ForeignKey(Profile,on_delete=models.CASCADE)
+    
+    
 class ThreadManager(models.Manager):
     def by_user(self, user):
         qlookup = Q(first=user) | Q(second=user)

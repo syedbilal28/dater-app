@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,6 +65,7 @@
         <div id="form-wrapper" class="d-flex flex-column justify-content-center align-items-center">
                 <!-- <div id="data-wrapper"> -->
                     <form action="{% url 'CodeInput' %}" method="POST" id="code-form">
+                        {% csrf_token %}
                         <div class="row d-flex justify-content-center m-2">
                             <input type="hidden" name="email" value="{{ email }}">
                             <div class="col-2 mx-2 p-0"><input type="text" onkeyup="this.value=this.value.replace(/[^\d]/,'')" class="code-input" name="num1" maxlength="1"></div>

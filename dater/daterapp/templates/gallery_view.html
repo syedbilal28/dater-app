@@ -14,8 +14,9 @@
             border: 0;
         }
         img{
-            max-width:160px;
-            /* max-height:420px; */
+            min-height: 80px;
+            /* max-width:150px; */
+            max-height:90px;
             border-top-left-radius: 1.2rem;
             border-top-right-radius: 1.2rem;
         }
@@ -32,10 +33,21 @@
         .btns {
             font-size: 26px;
         }
+        .d-flex{
+            flex-wrap: wrap;
+        }
+        .to-change{
+            color:#fe877c;
+        }
+        a{
+            color: inherit;
+            text-decoration: none;
+
+        }
     </style>
 </head>
 <body>
-    <div class="nav-bar">
+    <div class="nav-bar p-2">
         <nav class="row">
             <div class="col-2 text-left"><i class="fas fa-arrow-left btns"></i></div>
             <div class="col-8 text-center"><h4>Discover</h4></div>
@@ -43,59 +55,27 @@
         </nav>
     </div>
 
-    <div class="container d-flex">
-        <div class="flex-row">
+    <div class="container d-flex my-5">
+       
+        {% for profile in profiles %}
+        <a href="/profile/{{ profile.user.username }}/">
             <div class="card m-3 flex-column">
-                <img src="https://pyxis.nymag.com/v1/imgs/5d2/6fc/0cdc04b4b5072f9073665e6f006a82db6d-hawley.rsquare.w700.jpg" alt="user">
+                {% with profile.images.all|first as image %}
+                <img src="{{ image.image.url }}" alt="user">
+                {% endwith %}
     
                 <div class="row name text-center">
-                    <h5>Papa John</h5>
+                    <h5>{{ profile.user.first_name }} {{ profile.user.last_name }} </h5>
                 </div>
-    
-                <div class="row distance text-center">
-                    <p><i class="fas fa-map-marker-alt"></i> 10 miles</p>
-                </div>
-            </div> 
-    
-            <div class="card m-3 flex-column">
-                <img src="https://pyxis.nymag.com/v1/imgs/5d2/6fc/0cdc04b4b5072f9073665e6f006a82db6d-hawley.rsquare.w700.jpg" alt="user">
-    
-                <div class="row name text-center">
-                    <h5>Papa John</h5>
-                </div>
-    
-                <div class="row distance text-center">
-                    <p><i class="fas fa-map-marker-alt"></i> 10 miles</p>
+                
+                <div class="distance text-center justify-content-center">
+                    <i class="fas fa-map-marker-alt to-change"></i><p class="distances d-inline px-1">{{ profile.distance }}</p>
                 </div>
             </div> 
-        </div>
-
-
-        <div class="flex-row">
-            <div class="card m-3 flex-column">
-                <img src="https://pyxis.nymag.com/v1/imgs/5d2/6fc/0cdc04b4b5072f9073665e6f006a82db6d-hawley.rsquare.w700.jpg" alt="user">
-    
-                <div class="row name text-center">
-                    <h5>Papa John</h5>
-                </div>
-    
-                <div class="row distance text-center">
-                    <p><i class="fas fa-map-marker-alt"></i> 10 miles</p>
-                </div>
-            </div> 
-    
-            <div class="card m-3 flex-column">
-                <img src="https://pyxis.nymag.com/v1/imgs/5d2/6fc/0cdc04b4b5072f9073665e6f006a82db6d-hawley.rsquare.w700.jpg" alt="user">
-    
-                <div class="row name text-center">
-                    <h5>Papa John</h5>
-                </div>
-    
-                <div class="row distance text-center">
-                    <p><i class="fas fa-map-marker-alt"></i> 10 miles</p>
-                </div>
-            </div> 
-        </div>
+        </a>
+        {% endfor %}
+             
+        
     </div>
 
     <footer>
@@ -123,5 +103,16 @@
                 </div>
         </div>
     </footer>
+    <script>
+        const distances=document.querySelectorAll(".distances")
+        l= distances.length
+        for( i=0; i<l; i++){
+            let m= distances[i].innerText
+            m = m.replace(/[\[\]&]+/g, '');
+            m=(parseFloat(m)*0.000621371192).toFixed(2);
+            distances[i].innerText=String(m)+" miles"
+            
+        }
+    </script>
 </body>
 </html>
