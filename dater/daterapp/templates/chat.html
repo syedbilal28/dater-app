@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
     <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
@@ -30,10 +32,57 @@
             outline: none;
         }
         #send-message{
-            position: absolute ;
+            position: fixed ;
             bottom: 0px;
+            z-index: 2;
+            background-color: white;
 
         }
+        ul{
+            list-style-type: none;
+        }
+        .message-div{
+        display: inline-block;
+
+    }
+    .message-wrapper{
+        display: inline-block;
+        position: relative;
+        
+    }
+    .theirs{
+        border-radius: 2rem 2rem 2rem 0px;
+    }
+    .ours{
+        border-radius: 2rem 2rem 0px 2rem;
+        background-color: #fe877c;
+    }
+    .message{
+        /* border:1px solid black; */
+        display: inline-block;
+    }
+    .time{
+        font-size: small;
+        font-weight: 100;
+    }
+    .user{
+        text-align: right;
+    }
+    .send-button{
+        cursor: pointer;
+    }
+    .send-button:hover{
+        color:black;
+    }
+    #chatbox{
+        z-index: 1;
+        max-height: 90vh;
+        overflow: auto;
+        margin-bottom: 7vh;
+    }
+    #image-upload{
+        display:none;
+    }
     </style>
 </head>
 <body>
@@ -62,20 +111,184 @@
         </div>
         <div id="chatbox">
             <ul id="chat-list">
+                {% with thread|first as thread %}
                 
+                
+                {% for message in thread.chatmessage_set.all %}
+                                    
+                    {% if message.user == profile %}
+                        <li class="other">
+                            <div class="message-div">
+                                <div class="message-wrapper px-3 py-1 theirs shadow">
+                                    <p class="message">{{ message.message }}</p>
+                                    <p class="time">{{ message.timestamp.time }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="user">
+                            <div class="message-div">
+                                <div class="message-wrapper px-3 py-1 ours shadow">
+                                    <p class="message">{{ message.message }}</p>
+                                    <p class="time">{{ message.timestamp.time }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% endwith %}
             </ul>
-        </div>
-        <div id="send-message" class="row py-2">
-            <div class="col-1"><i class="fas fa-plus-circle"></i></div>
-            <div class="col-1"><i class="fas fa-camera"></i></div>
-            <div class="col-1"><i class="fas fa-image"></i></div>
-            <div class="col-1"><i class="fas fa-microphone"></i></div>
-            <div class="col-6">
-                <input type="text" placeholder="Send a message" class="p-1" id="message-send">
+            <div id="send-message" class="row py-2">
+                <div class="col-1"><i class="fas fa-plus-circle"></i></div>
+                <div class="col-1 "><i class="fas fa-camera"></i></div>
+                <div class="col-1 image-trigger"><i class="fas fa-image image-trigger"></i></div>
+                <div class="col-1"><i class="fas fa-microphone"></i></div>
+                <div class="col-6">
+                    <input type="file" id="image-upload">
+                    <form id="msg-form">
+                        
+                        <input type="hidden" value="{{ user.get_username }}" id="my-username">
+                        <input type="text" placeholder="Send a message" class="p-1" id="message-send">
+                    </form>
+                </div>
+                <div class="col-1 send-button"><i class="far fa-heart send-button"></i></div>
+    
             </div>
-            <div class="col-1"><i class="far fa-heart"></i></div>
-
         </div>
+        
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js" integrity="sha512-SxQulwFs2B38bmUJtBSo9tD07MDrtCbY8me3AOZ14tRknCPTeMDLvCQV4ekhs8R0o9QPnW5HQanKfveexVcwLA==" crossorigin="anonymous"></script>
+
+    <script>
+        $(".image-trigger").on("click",()=>{
+            
+            document.querySelector("#image-upload").click()
+            alert("click")
+        })
+        window.scrollTo(0,document.body.scrollHeight)
+        inpFile=document.querySelector('#image-upload')
+        inpFile.addEventListener("change",function(){
+        l= this.files.length
+        const file = this.files[l-1]
+        files.push(file)
+        console.log(file)
+        if (file) {
+            const reader=new FileReader()
+            
+            reader.addEventListener("load",function(){
+                // var div_for_img=`<div class="rounded p-2">
+                //     <img src="${this.result}" alt="" class="uploaded-image rounded">
+                // </div>`
+                // document.querySelector("#image-display").innerHTML+=div_for_img
+                var form_data= new FormData()
+                form_data.append("image",this)
+                $.ajax({
+                        url: '/uploadimg/',
+                        type: 'POST',
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            data = JSON.parse(data); // converts string of json to object
+                            $('#photo').html('<img src="'+data.url+ '" />');
+                            // <h2>title</h2> You do not use 'title' in your project !!
+                            // alt=title see previous comment
+                        }
+                    });
+            })
+            reader.readAsDataURL(file);
+
+
+        }
+
+        });
+        const msg_input=$("#message-send")
+        const form=$("#msg-form")
+        var me= "{{ user.get_username }}"
+        $(".send-button").on("click",function(){
+            $(form).submit()
+        })
+        var loc=window.location
+    var wsStart="ws://"
+
+    if (loc.protocol =="https:"){
+        wsStart="wss://"
+    }
+    // Socket connection 
+    var endpoint=  wsStart+loc.host+loc.pathname
+    window.socket= new WebSocket(endpoint)
+
+    window.socket.onmessage=function(e){
+        
+        var msg_rec=JSON.parse(e.data).text
+        console.log("message",msg_rec.text)
+        if (msg_rec.status == 'send-msg') {
+            console.log('------msg data -----')
+            console.log(msg_rec)
+            add_message(msg_rec.username,msg_rec.message,msg_rec.message_id,msg_rec.timestamp)
+        }
+        
+
+    }
+    function add_message(sent_by,message,msg_id,timestamp){
+        chat_list=document.querySelector("#chat-list")
+        if(sent_by == me){
+            chat_list.innerHTML+=`<li class="user">
+                            <div class="message-div">
+                                <div class="message-wrapper px-3 py-1 ours shadow">
+                                    <p class="message">${message}</p>
+                                    <p class="time">${timestamp}</p>
+                                </div>
+                            </div>
+                        </li>`
+        }
+        else{
+            chat_list.innerHTML+=`<li class="other">
+                            <div class="message-div">
+                                <div class="message-wrapper px-3 py-1 theirs shadow">
+                                    <p class="message">${message}</p>
+                                    <p class="time">${timestamp}</p>
+                                </div>
+                            </div>
+                        </li>`
+        }
+        
+    }
+    //When soocket sends data to the the server 
+    window.socket.onopen=function(e){
+        console.log("open",e)
+        
+        
+        form.submit(function(event){
+            console.log("submitted")
+            event.preventDefault()
+            var msgtext=msg_input.val()
+            var me =$("#my-username").val()
+            data={
+                "message":msgtext,
+                'username':me
+            }
+            console.log(data)
+            console.log("message",msgtext)
+            if(msgtext.length >1){
+            window.socket.send(JSON.stringify(data))
+        }
+            form[0].reset()
+
+        })}
+        
+    
+
+
+    window.socket.onerror=function(e){
+        console.log("error",e)
+    }
+    window.socket.onclose=function(e){
+        console.log("close",e)
+                
+    }
+    
+
+    </script>
 </body>
 </html>

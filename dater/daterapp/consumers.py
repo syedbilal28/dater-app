@@ -107,62 +107,27 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 )
 
 
-            elif chkstatus == 'liked':
-                msg_id = loaded_dict_data.get("msg_id")
-                # msg_id=msg_id['id']
-                myresponse = {
-                    'status': 'like-react',
-                    'showreact': chkstatus,
-                    'msg_id':msg_id,
-                }
-                message = eval(loaded_dict_data.get("msg"))["id"]
-                await self.get_message_react(msg_id, chkstatus)
-                await self.channel_layer.group_send(
-                    self.chat_room,
-                    {
-                        'type': 'chat_message',
-                        'text': myresponse
-                    }
-                )
-
-            elif chkstatus == 'not-liked':
-                msg_id = loaded_dict_data.get("msg_id")
-                myresponse = {
-                    'status': 'like-react',
-                    'showreact': chkstatus,
-                    'msg_id':msg_id,
-                }
-
-                # message = eval(loaded_dict_data.get("msg"))["id"]
-                await self.get_message_react(msg_id, chkstatus)
-                await self.channel_layer.group_send(
-                    self.chat_room,
-                    {
-                        'type': 'chat_message',
-                        'text': myresponse
-                    }
-                )
-
-
+            
             else:
                 msg = loaded_dict_data.get('message')
                 status = loaded_dict_data.get('status')
                 user = loaded_dict_data.get('username')
                 print('---test msg ----------')
                 msg = await self.get_chat_message(msg)
-                msg = ChatMessageSerializer(msg).data
+                print(msg)
+                # msg = ChatMessageSerializer(msg).data
                 print('------------ msg data -----------')
                 print(msg)
-                print('my message', msg['message'])
-                print('msg id ', msg['id'])
+                print('my message', msg.message)
+                print('msg id ', msg.pk)
                 # username=user.username
                 myresponse = {
                     'status': 'send-msg',
-                    'message': msg['message'],
-                    'message_id': msg['id'],
+                    'message': msg.message,
+                    'message_id': msg.pk,
                     'username': user,
-                    'react_status':msg['react_status'],
-                    'timestamp':msg['timestamp']
+                    
+                    'timestamp':msg.timestamp.time().strftime("%H:%M")
                 }
                 await self.channel_layer.group_send(
                     self.chat_room,
@@ -198,6 +163,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_chat_message(self, msg):
         thread_obj = self.thread_obj
         me = self.scope['user']
+        me=me.profile
         return ChatMessage.objects.create(thread=thread_obj, user=me, message=msg)
     @database_sync_to_async
     def get_message_react(self, msg_id, chkstatus):

@@ -12,7 +12,8 @@ urlpatterns=[
     path("home/",views.GalleryView,name="GalleryView"),
     path("profile/<str:username>/",views.ProfileView,name="Profile"),
     path("chat/<str:username>/",views.Chat,name="Chat"),
-    path("inbox/<str:username>/",views.Inbox,name="Inbox")
+    path("inbox/<str:username>/",views.Inbox,name="Inbox"),
+    path("uploadimg/",views.UploadImage,name="UploadImage")
     
 
 ]
