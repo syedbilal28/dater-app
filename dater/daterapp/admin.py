@@ -7,3 +7,14 @@ class ProfileAdmin(OSMGeoAdmin):
     list_display=("user","location")
 admin.site.register(LoginVerify)
 admin.site.register(ProfileImages)
+
+class ChatMessage(admin.TabularInline):
+    model = ChatMessage
+
+class ThreadAdmin(admin.ModelAdmin):
+    inlines = [ChatMessage]
+    class Meta:
+        model = Thread 
+
+
+admin.site.register(Thread, ThreadAdmin)

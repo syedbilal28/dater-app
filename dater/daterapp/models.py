@@ -34,6 +34,9 @@ class Profile(models.Model):
     profession=models.CharField(max_length=100,null=True,blank=True)
     location = models.PointField(null=True)
     # images=models.ForeignKey(related_name="images")
+
+    def __str__(self):
+        return self.user.username
 class ProfileImages(models.Model):
     profile=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="images")
     image=models.ImageField(upload_to=to_upload,verbose_name="Image")

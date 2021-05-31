@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        img{
+            border-radius: 50%;
+        }
+        p{
+            margin: 0px;
+        }
+        #main-img{
+            border: 5px solid #fe877c;
+        }
+        .fas,.far{
+            color: #fe877c;
+            font-size: 28px;
+        }
+        input{
+            width: 100%;
+            border-radius: 1rem;
+            border: none;
+        }
+        input:focus{
+            outline: none;
+        }
+        #send-message{
+            position: absolute ;
+            bottom: 0px;
+
+        }
+    </style>
+</head>
+<body>
+    <nav class="p-2">
+        <div class="col-5"><i class="fas fa-arrow-left"></i></div>
+    </nav>
+    <div class="container">
+        <div class="info-holder d-flex flex-column justify-content-center align-items-center">
+            <div>
+                {% with profile.images.all|first as image %}
+                <img src="{{ image.image.url }}" alt="" id="main-img">
+                {% endwith %}
+            </div>
+            <div class="mt-2">
+                <h4><strong>{{ profile.user.first_name }} {{ profile.user.last_name }}</strong>, {{ profile.age }} </h4>
+            </div>
+            <div class="mb-2">
+                <p>You are friends on dater</p>
+            </div>
+            <div>
+                <p>Lives in {{ profile.city }}</p>
+            </div>
+            <div>
+                <p>Sat hi to your new Dater Friend, {{ profile.user.first_name }}</p>
+            </div>
+        </div>
+        <div id="chatbox">
+            <ul id="chat-list">
+                
+            </ul>
+        </div>
+        <div id="send-message" class="row py-2">
+            <div class="col-1"><i class="fas fa-plus-circle"></i></div>
+            <div class="col-1"><i class="fas fa-camera"></i></div>
+            <div class="col-1"><i class="fas fa-image"></i></div>
+            <div class="col-1"><i class="fas fa-microphone"></i></div>
+            <div class="col-6">
+                <input type="text" placeholder="Send a message" class="p-1" id="message-send">
+            </div>
+            <div class="col-1"><i class="far fa-heart"></i></div>
+
+        </div>
+    </div>
+</body>
+</html>
