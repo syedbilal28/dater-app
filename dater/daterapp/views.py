@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from .models import Thread,ChatMessage,Profile,LoginVerify,ProfileImages
+from .models import Schedule, Thread,ChatMessage,Profile,LoginVerify,ProfileImages,Schedule
 from .serializers import ThreadSerializer,ChatMessageSerializer,UserSerializer
 import json
 from django.http import HttpResponse,JsonResponse
@@ -176,4 +176,8 @@ def UploadImage(request):
         message=ChatMessage.objects.create(thread=Thread,media=media,user=request.user)
         return HttpResponse(status=200)
         
-    
+def calendar(request,username):
+    profile=User.objects.get(username=username).profile
+    schedule=Schedule.objects.by_user(profile)
+    context={"schedule":schedule}
+    return render(request,"calendar.html",context)

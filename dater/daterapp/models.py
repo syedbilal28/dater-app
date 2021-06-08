@@ -5,6 +5,7 @@ from django.db.models import Q
 import os
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.db.models.fields import related
 
 # Create your models here.
 
@@ -137,3 +138,18 @@ class LoginVerify(models.Model):
     profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
     status=models.IntegerField(default=0)
     code=models.CharField(max_length=6)
+
+class ScheduleManager(models.Manager):
+    def by_user(self,user):
+        qlookup = Q(user=user) | Q(for_user=user)
+        qlookup2 = Q(user=user) & Q(for_user=user)
+        qs = self.get_queryset().filter(qlookup).exclude(qlookup2).distinct()
+        return qs
+
+
+class Schedule(models.Model):
+    user=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="girl")
+    appointment_time=models.DateTimeField()
+    for_user=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="boy")
+    
+    objects=ScheduleManager()
