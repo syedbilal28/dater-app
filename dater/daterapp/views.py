@@ -9,9 +9,9 @@ from django.conf import settings
 import random
 from django.contrib.auth import login, logout,authenticate
 from datetime import datetime
-from django.contrib.gis.geos import fromstr,GEOSGeometry
+# from django.contrib.gis.geos import fromstr,GEOSGeometry
 
-from django.contrib.gis.db.models.functions import Distance
+# from django.contrib.gis.db.models.functions import Distance
 # Create your views here.
 def signup(request):
     if request.method =="POST":
@@ -106,8 +106,8 @@ def CreateProfile(request):
         profile.dob= datetime.strptime(dob,"%Y-%m-%d")
         profile.gender=gender
         profile.sexuality=sexuality
-        location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-        profile.location=location
+        # location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+        # profile.location=location
         profile.save()
         user.save()
         return redirect("AddPhotos")
@@ -130,14 +130,15 @@ def GalleryView(request):
     return render(request,"gallery_view.html",context)
 def ProfileView(request,username):
     user=User.objects.get(username=username)
-    profiles=Profile.objects.annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+    # profiles=Profile.objects.annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+    profiles=Profile.objects.all()
     for i in profiles:
         if i.user==user:
             profile=i
             break
-    # profile=profiles.filter(user=user)
-    distance=Distance(profile.location,request.user.profile.location)
-
+    profile=profiles.filter(user=user)
+    # distance=Distance(profile.location,request.user.profile.location)
+    distance=0.111
     # print(help(distance))
     context={"profile":profile,"distance":distance}
     
