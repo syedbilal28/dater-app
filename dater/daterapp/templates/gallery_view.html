@@ -49,6 +49,12 @@
             position: fixed !important;
             bottom: 0px;
         }
+        .btns{
+            font-size: 30px ;
+        }
+        .col{
+            padding: 2px;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +109,7 @@
                     </div>
 
                     <div class="col">
-                        <i class="far fa-user"></i>
+                        <a href="/profile/{{ request.user.username }}/"><i class="far fa-user"></i></a>
                     </div>
                 </div>
         </div>
