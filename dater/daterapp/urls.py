@@ -14,7 +14,7 @@ urlpatterns=[
     path("chat/<str:username>/",views.Chat,name="Chat"),
     path("inbox/<str:username>/",views.Inbox,name="Inbox"),
     path("uploadimg/",views.UploadImage,name="UploadImage"),
-    path("calendar/<str:username>/",views.calendar,name="Calendar")
-    
-
+    path("calendar/<str:username>/",views.calendar,name="Calendar"),
+    path("booking/<str:username>/",views.booking,name="Booking"),
+    path("checkAvailabilty/<str:username>/",views.checkAvailability,name="CheckAvailabilty"),
 ]

@@ -1,80 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>View</title>
     <style>
-        .profiles{
+        .profiles {
             width: 100%;
         }
-        img{
-            max-width:80vw;
+
+        img {
+            max-width: 80vw;
             margin: auto;
             /* max-height:520px; */
             border-radius: 0.75rem;
         }
+
         /* .details,.information {
             margin: auto;
             display:inline-block;
         } */
-        .profile-name{
-            font-size: 28px ;
+        .profile-name {
+            font-size: 28px;
         }
+
         .details {
             opacity: 0.7;
         }
-        .no-design{
+
+        .no-design {
             border: none;
             background: transparent;
         }
+
         /* .fa-times{
             font-weight: 300;
 
         } */
-        .fas,.far{
+        .fas,
+        .far {
             font-size: 42px;
             background: transparent;
             color: #fe877c;
         }
-        .to-change{
+
+        .to-change {
             font-size: 24px;
         }
-        .footer{
+
+        .footer {
             position: fixed;
             width: 90%;
             bottom: 0px;
             background-color: white;
             color: black;
         }
-        .black{
+
+        .black {
             color: black;
             opacity: 0.8;
             font-size: 42px;
         }
-        .btns{
-            font-size: 30px ;
+
+        .btns {
+            font-size: 30px;
         }
-        .body{
+
+        .body {
             margin-bottom: 3rem;
+        }
+
+        .btn {
+            background-color: #fe877c;
+            border: none;
+            border-radius: 1rem;
         }
     </style>
 </head>
+
 <body>
     <nav class="row p-2">
         <div class="col-2 text-left small"><i class="fas fa-arrow-left btns"></i></div>
-        <div class="col-8 text-center"><h4>Discover</h4></div>
+        <div class="col-8 text-center">
+            <h4>Discover</h4>
+        </div>
         <div class="col-2 text-right small"><i class="fas fa-sliders-h btns"></i></div>
     </nav>
     <div class="container">
-        
+
         <div class="body">
             <div class="profiles text-center">
                 {% with profile.images.all|first as image %}
-                <img src="{{ image.image.url }}" class="m-3 my-5" alt="girl" >
+                <img src="{{ image.image.url }}" class="m-3 my-5" alt="girl">
                 {% endwith %}
             </div>
 
@@ -92,20 +115,29 @@
 
             <div class="information d-flex flex-column align-items-center mt-3">
                 <div>
-                    <p class="profile-name"><strong>{{ profile.user.first_name }} {{ profile.user.last_name }} </strong>, {{ profile.age }}</p>
+                    <p class="profile-name"><strong>{{ profile.user.first_name }} {{ profile.user.last_name }}
+                        </strong>, {{ profile.age }}</p>
                 </div>
-            
+
 
                 <div class="details my-1">
                     <span class="mx-2">{{ profile.profession }}</span>
-                    <i class="fas fa-map-marker-alt to-change mx-1"></i><span id="distance">{{ profile.distance }}</span>
+                    <i class="fas fa-map-marker-alt to-change mx-1"></i><span id="distance">{{ profile.distance
+                        }}</span>
                 </div>
 
                 <div class="details text-center my-2">
                     <p>{{ profile.passions }}.</p>
                 </div>
+                <div class="row text-center my-2">
+                    <a href="/calendar/{{ request.user.username }}/"><button class="btn btn-primary">View
+                            Calendar</button></a>
+                    <div class="ml-2">
+                        <button class="btn btn-primary" id="schedule">Schedule Meetup
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
 
         <div class="footer">
@@ -124,22 +156,30 @@
                     </div>
 
                     <div class="col">
-                        <i class="far fa-comment-dots black"></i>
+                        <a href="/inbox/{{ request.user.username }}"><i class="far fa-comment-dots black"></i></a>
                     </div>
 
                     <div class="col">
                         <i class="far fa-user black"></i>
                     </div>
                 </div>
-        </div>
+            </div>
         </div>
     </div>
     <script>
-        var distance=document.querySelector("#distance")
-        let m= distance.innerText
-            m = m.replace(/[\[\]&]+/g, '');
-            m=(parseFloat(m)*0.000621371192).toFixed(2);
-            distance.innerText=String(m)+" miles"
+        $("#schedule").on("click", function () {
+
+            const user = window.location.pathname.split("/")[2]
+            window.location.replace("/booking/"+user)
+        })
+
+
+        var distance = document.querySelector("#distance")
+        let m = distance.innerText
+        m = m.replace(/[\[\]&]+/g, '');
+        m = (parseFloat(m) * 0.000621371192).toFixed(2);
+        distance.innerText = String(m) + " miles"
     </script>
 </body>
+
 </html>

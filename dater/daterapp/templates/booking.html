@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+        integrity="undefined" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        .section-border {
+            border: 1px solid #e6e6e6;
+        }
+
+        .input-border {
+            border: 0;
+            border-bottom: 1px solid #e6e6e6;
+            min-width: 240px;
+            text-align: center;
+            background: transparent;
+        }
+
+        .form-div {
+            min-width: 80%;
+            width: 80% !important;
+            margin: auto;
+            background-color: #f2f2f2;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .rounded-pill {
+            width: 80%;
+            height: 48px;
+            background-color: #fe877c;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row text-center my-5">
+            <h2>Schedule Appointment</h2>
+        </div>
+
+        <div class="form-wrapper mt-5">
+            <form method="POST" id="booking-form">
+                <div class="row my-3 text-center">
+                    <div class="section-border rounded form-div p-3 my-3">
+                        <h4>Date</h4>
+                        <input type="date" name="date" id="date" class="input-border">
+                    </div>
+
+                    <div class="section-border rounded form-div p-3 my-3">
+                        <h4>Time</h4>
+                        <input type="time" name="time" id="time" class="input-border" value="00:00">
+                        <div>
+                            <p>{{ message }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% csrf_token %}
+            </form>
+
+            <div class="text-center pt-5">
+                <!-- <a href="/checkAvailablity/{{ request.user.username }}/"> -->
+                <button type="submit" class="button btn-success rounded-pill" onclick="done(event)">Check
+                    Availability</button>
+
+            </div>
+        </div>
+
+        <script>
+            // document.getElementById('date').valueAsDate = new Date();
+            // document.getElementById('time').valueAsTime = new Date().toTimeString().split(" ")[0];
+
+            // const form = document.getElementById("#booking-form")
+            // form.setAttribute("action", "/checkAvailabilty/" + user)
+
+            function done(e) {
+                const user = window.location.pathname.split("/")[2]
+                $.ajax({
+                    url: `/checkAvailabilty/${user}/`,
+                    method: "post",
+                    dataType: "json",
+                    data: $("#booking-form").serialize(),
+                    success: function (data) {
+                        console.log("Data submitted")
+                    }
+                })
+                // const form = document.getElementById("#booking-form")
+                // form.action = `/checkAvailability/${user}`
+                // $("#booking-form").submit()
+                // alert(user)
+            }
+
+        </script>
+</body>
+
+</html>

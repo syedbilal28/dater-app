@@ -9,6 +9,7 @@ from django.conf import settings
 import random
 from django.contrib.auth import login, logout,authenticate
 from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
 # from django.contrib.gis.geos import fromstr,GEOSGeometry
 
 # from django.contrib.gis.db.models.functions import Distance
@@ -123,8 +124,12 @@ def AddPhotos(request):
         return render(request,"add_photos.html")
     
 def GalleryView(request):
-    # profiles= Profile.objects.all()
-    profiles=Profile.objects.annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+    profiles= Profile.objects.all()
+    # profiles=Profile.objects.all().exclude(user=request.user).annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+
+    # for i in profiles:
+    #     if i == request.user.profile:
+    #         profiles.remove(i)
     context={"profiles":profiles}
 
     return render(request,"gallery_view.html",context)
@@ -136,9 +141,9 @@ def ProfileView(request,username):
         if i.user==user:
             profile=i
             break
-    profile=profiles.filter(user=user)
+    # profile=profiles.filter(user=user)
     # distance=Distance(profile.location,request.user.profile.location)
-    distance=0.111
+    distance=0.11
     # print(help(distance))
     context={"profile":profile,"distance":distance}
     
@@ -182,3 +187,17 @@ def calendar(request,username):
     schedule=Schedule.objects.by_user(profile)
     context={"schedule":schedule}
     return render(request,"calendar.html",context)
+
+
+def booking(request, username):
+    username = username
+    return render(request, "booking.html")
+
+@csrf_exempt
+def checkAvailability(request, username):
+    profile=User.objects.get(username=username).profile
+    schedule=Schedule.objects.by_user(profile)
+    date = request.POST.get("date")
+    time = request.POST.get("time")
+    print(schedule)
+    return HttpResponse(status=200)
