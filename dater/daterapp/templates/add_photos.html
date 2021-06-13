@@ -24,7 +24,7 @@
             color: #fe877c;
         }
         .uploaded-image{
-            max-width: 200px;
+            max-width: 150px;
             max-height: 200px;
         }
         .d-flex{
@@ -111,6 +111,7 @@
             data:form_data,
             success:function (data){
                 console.log("Sent")
+                window.location.href="{% url 'GalleryView' %}"
             }
             })
             

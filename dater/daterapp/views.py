@@ -124,8 +124,10 @@ def AddPhotos(request):
         return render(request,"add_photos.html")
     
 def GalleryView(request):
+
     profiles= Profile.objects.all()
     # profiles=Profile.objects.all().exclude(user=request.user).annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+
 
     # for i in profiles:
     #     if i == request.user.profile:
