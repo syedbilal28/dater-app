@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.contrib.gis.admin import OSMGeoAdmin
-from .models import Profile, ChatMessage,Thread,LoginVerify,ProfileImages
+# from django.contrib.gis.admin import OSMGeoAdmin
+from .models import Profile, ChatMessage,Thread,LoginVerify,ProfileImages,Schedule
 # Register your models here.
-@admin.register(Profile)
-class ProfileAdmin(OSMGeoAdmin):
-    list_display=("user","location")
+# @admin.register(Profile)
+# class ProfileAdmin(OSMGeoAdmin):
+#     list_display=("user","location")
 admin.site.register(LoginVerify)
 admin.site.register(ProfileImages)
 
@@ -18,3 +18,4 @@ class ThreadAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Thread, ThreadAdmin)
+admin.site.register(Schedule)

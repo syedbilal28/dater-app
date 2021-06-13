@@ -4,8 +4,9 @@ from cities_light.models import City
 from django.db.models import Q
 import os
 from django.conf import settings
-from django.contrib.gis.db import models
-from django.db.models.fields import related
+from django.db import models
+# from django.contrib.gis.db import models
+# from django.db.models.fields import related
 
 # Create your models here.
 
@@ -47,7 +48,7 @@ class Profile(models.Model):
     dob=models.DateField(null=True,default=None)
     passions=models.CharField(max_length=500,null=True,blank=True)
     profession=models.CharField(max_length=100,null=True,blank=True)
-    location = models.PointField(null=True)
+    # location = models.PointField(null=True)
     # images=models.ForeignKey(related_name="images")
 
     def __str__(self):
