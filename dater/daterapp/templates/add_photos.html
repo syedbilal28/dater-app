@@ -110,8 +110,14 @@
                 },
             data:form_data,
             success:function (data){
-                console.log("Sent")
-                window.location.href="{% url 'GalleryView' %}"
+                console.log(data.gender)
+                // alert(data)
+                if (data.gender == "male"){
+                    window.location.href="{% url 'CardInput' %}"
+                }
+                else{
+                    window.location.href="{% url 'GalleryView' %}"
+                }
             }
             })
             

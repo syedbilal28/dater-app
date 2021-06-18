@@ -118,8 +118,8 @@ def CreateProfile(request):
         profile.dob= datetime.strptime(dob,"%Y-%m-%d")
         profile.gender=gender
         profile.sexuality=sexuality
-        # location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-        # profile.location=location
+        location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+        profile.location=location
         profile.save()
         user.save()
         return redirect("AddPhotos")
@@ -130,7 +130,21 @@ def AddPhotos(request):
         print(request.FILES,request.POST)
         for key,value in request.FILES.items():
             ProfileImages.objects.create(profile=request.user.profile,image=value)
-        return HttpResponse(status=200)
+        if request.user.profile.gender=="male":
+            return JsonResponse({"gender":"male"},status=200)
+        # return HttpResponse(status=200)
+        else:
+            product=stripe.Product.create(
+                name= request.user.username
+            )
+            price=stripe.Price.create(
+                unit_amount=1500,
+                currency="usd",
+                product=product.id
+            )
+            request.user.profile.price= price.id
+            request.user.profile.save()
+            return JsonResponse({"gender":"not male"},status=200)
     else:
         return render(request,"add_photos.html")
     
@@ -231,6 +245,15 @@ def checkAvailability(request, username):
         appointment_time=proposed_time,
         for_user=request.user.profile
     )
+    stripe.InvoiceItem.create(
+        customer=request.user.profile.stripe_customer_id,
+        price=profile.price,
+    )
+    invoice = stripe.Invoice.create(
+        customer=request.user.profile.stripe_customer_id,
+        # auto_advance=True # auto-finalize this draft after ~1 hour
+    )
+    invoice_finalized = stripe.Invoice.finalize_invoice(invoice.id)
     return JsonResponse({"message":"submited"},status=200)
 
 def CardInput(request):
@@ -253,5 +276,6 @@ def CardInput(request):
             Payment_Method.id,
             customer=user.profile.stripe_customer_id
         )
+        return redirect("GalleryView")
     else:
         return render(request,"card.html")

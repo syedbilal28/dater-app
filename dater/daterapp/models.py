@@ -52,6 +52,7 @@ class Profile(models.Model):
     location = models.PointField(null=True)
     stripe_customer_id=models.CharField(max_length=100,null=True,blank=True)
     payment_method=models.CharField(max_length=100,null=True,blank=True)
+    price=models.CharField(max_length=100,null=True,blank=True)
     # images=models.ForeignKey(related_name="images")
 
     def __str__(self):
