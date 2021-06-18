@@ -133,10 +133,12 @@
 
                     <a href="/calendar/{{ request.user.username }}/"><button class="btn btn-primary">View
                             Calendar</button></a>
+                    {% if request.user.username != profile.user.username %}
                     <div class="ml-2">
                         <button class="btn btn-primary" id="schedule">Schedule Meetup
                         </button>
                     </div>
+                    {% endif %}
                 </div>
             </div>
 

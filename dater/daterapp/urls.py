@@ -17,4 +17,5 @@ urlpatterns=[
     path("calendar/<str:username>/",views.calendar,name="Calendar"),
     path("booking/<str:username>/",views.booking,name="Booking"),
     path("checkAvailabilty/<str:username>/",views.checkAvailability,name="CheckAvailabilty"),
+    path("card/",views.CardInput,name="CardInput")
 ]

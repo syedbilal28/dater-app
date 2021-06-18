@@ -4,9 +4,10 @@ from cities_light.models import City
 from django.db.models import Q
 import os
 from django.conf import settings
-from django.db import models
-# from django.contrib.gis.db import models
-# from django.db.models.fields import related
+# from django.db import models
+from django.contrib.gis.db import models
+from django.db.models.fields import related
+from stripe.api_resources import payment_method
 
 # Create your models here.
 
@@ -48,7 +49,9 @@ class Profile(models.Model):
     dob=models.DateField(null=True,default=None)
     passions=models.CharField(max_length=500,null=True,blank=True)
     profession=models.CharField(max_length=100,null=True,blank=True)
-    # location = models.PointField(null=True)
+    location = models.PointField(null=True)
+    stripe_customer_id=models.CharField(max_length=100,null=True,blank=True)
+    payment_method=models.CharField(max_length=100,null=True,blank=True)
     # images=models.ForeignKey(related_name="images")
 
     def __str__(self):
@@ -143,8 +146,8 @@ class LoginVerify(models.Model):
 class ScheduleManager(models.Manager):
     def by_user(self,user):
         qlookup = Q(user=user) | Q(for_user=user)
-        qlookup2 = Q(user=user) & Q(for_user=user)
-        qs = self.get_queryset().filter(qlookup).exclude(qlookup2).distinct()
+        # qlookup2 = Q(user=user) & Q(for_user=user)
+        qs = self.get_queryset().filter(qlookup).distinct()
         return qs
 
 

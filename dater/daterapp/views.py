@@ -3,16 +3,17 @@ from django.contrib.auth.models import User
 from .models import Schedule, Thread,ChatMessage,Profile,LoginVerify,ProfileImages,Schedule
 from .serializers import ThreadSerializer,ChatMessageSerializer,UserSerializer
 import json
+from django.core import serializers
 from django.http import HttpResponse,JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
-import random
+import random,stripe
 from django.contrib.auth import login, logout,authenticate
-from datetime import datetime
+from datetime import datetime,timezone
 from django.views.decorators.csrf import csrf_exempt
-# from django.contrib.gis.geos import fromstr,GEOSGeometry
+from django.contrib.gis.geos import fromstr,GEOSGeometry
 
-# from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.db.models.functions import Distance
 # Create your views here.
 def signup(request):
     if request.method =="POST":
@@ -20,7 +21,16 @@ def signup(request):
         username=email.split("@")[0]
         user=User.objects.create_user(username,email,username)
         user.save()
-        profile=Profile.objects.create(user=user)
+        customer=stripe.Customer.create(
+            email=user.email,
+            name=user.username,
+            metadata={
+                'user_id':user.pk,
+                'username':user.username
+            },
+            description="MexMing Customer",
+            )
+        profile=Profile.objects.create(user=user,stripe_customer_id=customer.id)
         # return HttpResponse(status=20/0)
         return redirect("rules")
 
@@ -72,7 +82,8 @@ def CodeInput(request):
         if verify_object.code == verification_code:
             verifylogin.status=1
             user=User.objects.get(email=email)
-            
+            if user.first_name:
+                return redirect("GalleryView")
             return redirect("CreateProfile")
         else:
             return render(request,"input_code.html",{"email":email})
@@ -125,8 +136,8 @@ def AddPhotos(request):
     
 def GalleryView(request):
 
-    profiles= Profile.objects.all()
-    # profiles=Profile.objects.all().exclude(user=request.user).annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
+    # profiles= Profile.objects.all()
+    profiles=Profile.objects.all().exclude(user=request.user).annotate(distance=Distance('location',request.user.profile.location)).order_by('distance')[0:20]
 
 
     # for i in profiles:
@@ -187,6 +198,7 @@ def UploadImage(request):
 def calendar(request,username):
     profile=User.objects.get(username=username).profile
     schedule=Schedule.objects.by_user(profile)
+    schedule=serializers.serialize("json",schedule)
     context={"schedule":schedule}
     return render(request,"calendar.html",context)
 
@@ -201,5 +213,45 @@ def checkAvailability(request, username):
     schedule=Schedule.objects.by_user(profile)
     date = request.POST.get("date")
     time = request.POST.get("time")
+    print(date,time)
+    proposed_time= datetime.strptime(f"{date} {time}","%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc)
+    available=True
+    for i in schedule:
+        print(i.appointment_time,proposed_time)
+        # to_check=datetime.strptime(i.appointment_time,"%Y-%m-%d %H:%M:%S")
+        if i.appointment_time == proposed_time:
+            
+            available=False
+            return HttpResponse(status=400)
+
     print(schedule)
-    return HttpResponse(status=200)
+    
+    appointment=Schedule.objects.create(
+        user=profile,
+        appointment_time=proposed_time,
+        for_user=request.user.profile
+    )
+    return JsonResponse({"message":"submited"},status=200)
+
+def CardInput(request):
+    if request.method == "POST":
+        user=request.user
+        card=request.POST.get("card")
+        cvc=request.POST.get("cvc")
+        exp_month=request.POST.get("exp_month")
+        exp_year=request.POST.get("exp_year")
+        Payment_Method=stripe.PaymentMethod.create(
+                type="card",
+                card={
+                    "number":card,
+                    "cvc":cvc,
+                    'exp_month':exp_month,
+                    'exp_year':exp_year
+                }
+            )
+        stripe.PaymentMethod.attach(
+            Payment_Method.id,
+            customer=user.profile.stripe_customer_id
+        )
+    else:
+        return render(request,"card.html")

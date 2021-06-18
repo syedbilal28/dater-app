@@ -42,6 +42,9 @@
             background-color: #fe877c;
             border: none;
         }
+        .alert{
+            display: none;
+        }
     </style>
 </head>
 
@@ -52,6 +55,9 @@
         </div>
 
         <div class="form-wrapper mt-5">
+            <div class="alert alert-danger" role="alert">
+                This slot isn't available
+              </div>
             <form method="POST" id="booking-form">
                 <div class="row my-3 text-center">
                     <div class="section-border rounded form-div p-3 my-3">
@@ -94,7 +100,12 @@
                     data: $("#booking-form").serialize(),
                     success: function (data) {
                         console.log("Data submitted")
+                        window.location.href=`/calendar/${user}/`
+                    },
+                    error:function(data){
+                        $(".alert").css("display","block")
                     }
+                
                 })
                 // const form = document.getElementById("#booking-form")
                 // form.action = `/checkAvailability/${user}`

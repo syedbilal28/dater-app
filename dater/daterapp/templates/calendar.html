@@ -31,8 +31,24 @@
         for(i = starting_day; i < end_date; i++){
             // alert(i)
             calendar_boxes[i].innerText=counter
+            calendar_boxes[i].setAttribute("data-date",counter)
             counter+=1
         }
+        const schedule = {{ schedule | safe }}
+        console.log(schedule)
+        current_date= new Date()
+        l = schedule.length
+        for( var i=0; i<l; i++){
+        var temp_date=new Date(schedule[i].fields.appointment_time)        
+        if( temp_date.getMonth() == current_date.getMonth())
+        
+        // var target=$(".date").find(`[data-date='${temp_date.getDate()}']`)
+        var target=$('[data-date='+temp_date.getDate()+']')[0]
+        // console.lotarget[0])
+        target.parentElement.innerHTML+=`<div class="row meeting px-1"><p>${temp_date.getHours()}:${temp_date.getMinutes()}</p></div>`
+
+        
+    }
     })
     </script>
     <style>
@@ -118,9 +134,9 @@
                         <td class="calendar-box">
                             <div class="calendar-div">
                                 <p class="date"></p>
-                                <div class="row meeting px-1">
+                                <!-- <div class="row meeting px-1">
                                     <p>14:00 user</p>
-                                </div>
+                                </div> -->
                             </div>
                         </td>
                         <td class="calendar-box">
@@ -134,9 +150,9 @@
                         <td class="calendar-box">
                             <div class="calendar-div">
                                 <p class="date"></p>
-                                <div class="row meeting px-1">
+                                <!-- <div class="row meeting px-1">
                                     <p>14:00 user</p>
-                                </div>
+                                </div> -->
                             </div>
                         </td>
                         <td class="calendar-box">
@@ -315,5 +331,7 @@
     
     
 </body>
-
+<script>
+    
+</script>
 </html>
