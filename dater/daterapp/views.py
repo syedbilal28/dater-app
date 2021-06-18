@@ -316,3 +316,19 @@ def star(request,username):
         starred=starred_user
     )
     return HttpResponse(status=200)
+
+def liked_profiles(request):
+    profiles=[]
+    likes= Like.objects.filter(liked_by=request.user.profile)
+    for like in likes:
+        profiles.append(like.liked)
+    context={"profiles":profiles}
+    return render(request,"gallery_view.html",context)        
+
+def starred_profiles(request):
+    profiles=[]
+    stars= Star.objects.filter(starred_by=request.user.profile)
+    for star in stars:
+        profiles.append(star.starred)
+    context={"profiles":profiles}
+    return render(request,"gallery_view.html",context)        

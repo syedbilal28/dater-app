@@ -9,6 +9,7 @@ from django.contrib.gis.db import models
 from django.db.models.fields import related
 from stripe.api_resources import payment_method
 
+
 # Create your models here.
 
 def to_upload(instance,filename):
@@ -65,6 +66,8 @@ class Like(models.Model):
     liked_by=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="liker")
     liked=models.ForeignKey(Profile,on_delete=models.CASCADE)
 
+                
+
 class Star(models.Model):
     starred_by=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="starrer")
     starred=models.ForeignKey(Profile,on_delete=models.CASCADE)
@@ -73,7 +76,11 @@ class DisLike(models.Model):
     disliked_by=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="disliker")
     disliked=models.ForeignKey(Profile,on_delete=models.CASCADE)
     
-    
+class Match(models.Model):
+    user1=models.ForeignKey(Profile,on_delete=models.CASCADE,related_name="user1")
+    user2=models.ForeignKey(Profile,on_delete=models.CASCADE)
+
+
 class ThreadManager(models.Manager):
     def by_user(self, user):
         qlookup = Q(first=user) | Q(second=user)
@@ -160,3 +167,20 @@ class Schedule(models.Model):
     objects=ScheduleManager()
 
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save,sender=Like)
+def match_checker(sender,instance,created,*args,**kwargs):
+    print("here")
+    if created:
+        print("Created confirmed")
+        liked_by=instance.liked_by
+        liked=instance.liked
+        likes= Like.objects.all()
+        print("got likes")
+        for like in likes:
+            if like.liked_by==liked and like.liked==liked_by:
+                Match.objects.create(user1=liked_by,user2=liked)
+                thread=Thread.objects.get_or_new(liked.user,liked_by.user)[0]
+                msg=ChatMessage.objects.create(thread=thread,user=liked_by,message="Hi we matched")

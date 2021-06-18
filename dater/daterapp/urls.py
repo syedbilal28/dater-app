@@ -21,5 +21,7 @@ urlpatterns=[
     path("like/<str:username>/",views.like,name="like"),
     path("dislike/<str:username>/",views.dislike,name="dislike"),
     path("star/<str:username>/",views.star,name="star"),
+    path("liked/",views.liked_profiles,name="LikedProfiles"),
+    path("starred/",views.starred_profiles,name="StarredProfiles")
 
 ]
