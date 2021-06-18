@@ -17,5 +17,9 @@ urlpatterns=[
     path("calendar/<str:username>/",views.calendar,name="Calendar"),
     path("booking/<str:username>/",views.booking,name="Booking"),
     path("checkAvailabilty/<str:username>/",views.checkAvailability,name="CheckAvailabilty"),
-    path("card/",views.CardInput,name="CardInput")
+    path("card/",views.CardInput,name="CardInput"),
+    path("like/<str:username>/",views.like,name="like"),
+    path("dislike/<str:username>/",views.dislike,name="dislike"),
+    path("star/<str:username>/",views.star,name="star"),
+
 ]

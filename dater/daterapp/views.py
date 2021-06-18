@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from .models import Schedule, Thread,ChatMessage,Profile,LoginVerify,ProfileImages,Schedule
+from .models import Schedule, Thread,ChatMessage,Profile,LoginVerify,ProfileImages,Schedule,Like,DisLike,Star
 from .serializers import ThreadSerializer,ChatMessageSerializer,UserSerializer
 import json
 from django.core import serializers
@@ -169,10 +169,23 @@ def ProfileView(request,username):
             profile=i
             break
     # profile=profiles.filter(user=user)
-    # distance=Distance(profile.location,request.user.profile.location)
-    distance=0.11
+    distance=Distance(profile.location,request.user.profile.location)
+    # distance=0.11
+    likes= Like.objects.filter(liked_by=request.user.profile)
+    liked_profile=False
+    for like in likes:
+        if like.liked==user.profile:
+            liked_profile=True
+            break
+    stars= Star.objects.filter(starred_by=request.user.profile)
+    starred_profile=False
+    for star in stars:
+        if star.starred==user.profile:
+            starred_profile=True
+            break
+
     # print(help(distance))
-    context={"profile":profile,"distance":distance}
+    context={"profile":profile,"distance":distance,"liked":liked_profile,"starred":starred_profile}
     
     return render(request,"classic_view.html",context)
 def ChatPage(request):
@@ -279,3 +292,27 @@ def CardInput(request):
         return redirect("GalleryView")
     else:
         return render(request,"card.html")
+
+def like(request,username):
+    liked_user=User.objects.get(username=username).profile
+    Like.objects.create(
+        liked_by=request.user.profile,
+        liked=liked_user
+    )
+    return HttpResponse(status=200)
+
+def dislike(request,username):
+    disliked_user=User.objects.get(username=username).profile
+    DisLike.objects.create(
+        disliked_by=request.user.profile,
+        disliked=disliked_user
+    )
+    return HttpResponse(status=200)
+
+def star(request,username):
+    starred_user=User.objects.get(username=username).profile
+    Star.objects.create(
+        starred_by=request.user.profile,
+        starred=starred_user
+    )
+    return HttpResponse(status=200)

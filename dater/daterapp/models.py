@@ -159,18 +159,4 @@ class Schedule(models.Model):
     
     objects=ScheduleManager()
 
-class Like(models.model):
-    liked_by=models.ForeignKey(Profile,on_delete=models.CASCADE)
-    liked_profile=models.ForeignKey(Profile,on_delte=models.CASCADE)
-    timestamp=models.DateField(auto_now_add=True)
-
-class DisLike(models.model):
-    disliked_by=models.ForeignKey(Profile,on_delete=models.CASCADE)
-    disliked_profile=models.ForeignKey(Profile,on_delte=models.CASCADE)
-    timestamp=models.DateField(auto_now_add=True)
-
-class Star(models.model):
-    starred_by=models.ForeignKey(Profile,on_delete=models.CASCADE)
-    starred_profile=models.ForeignKey(Profile,on_delte=models.CASCADE)
-    timestamp=models.DateField(auto_now_add=True)
 

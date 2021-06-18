@@ -103,13 +103,21 @@
 
             <div class="row buttons mx-4">
                 <div class="col">
-                    <button class="no-design"><i class="fas fa-times"></i></button>
+                    <button class="no-design"><i class="fas fa-times dislike"></i></button>
                 </div>
                 <div class="col">
-                    <button class="no-design"><i class="far fa-heart"></i></button>
+                    {% if liked %}
+                    <button class="no-design"><i class="fas fa-heart"></i></button>
+                    {% else %}
+                    <button class="no-design"><i class="far fa-heart like"></i></button>
+                    {% endif %}
                 </div>
                 <div class="col">
-                    <button class="no-design"><i class="far fa-star"></i></button>
+                    {% if starred %}
+                    <button class="no-design"><i class="fas fa-star"></i></button>
+                    {% else %}
+                    <button class="no-design"><i class="far fa-star star"></i></button>
+                    {% endif %}
                 </div>
             </div>
 
@@ -171,6 +179,63 @@
         </div>
     </div>
     <script>
+        $(".like").on("click",function(){
+            const user = window.location.pathname.split("/")[2]
+            console.log(this)
+            if(this.className == "far fa-heart like"){
+                $.ajax({
+                    
+                        url: `/like/${user}/`,
+                        method: "get",
+                        success: function (data) {
+                            document.querySelector(".fa-heart").className="fas fa-heart"
+                            
+                        },
+                        error:function(data){
+                            $(".alert").css("display","block")
+                        }
+                    
+                    })
+                }
+        })
+        $(".dislike").on("click",function(){
+            const user = window.location.pathname.split("/")[2]
+            console.log(this)
+            if(this.className == "fas fa-times dislike"){
+                $.ajax({
+                    
+                        url: `/dislike/${user}/`,
+                        method: "get",
+                        success: function (data) {
+                            document.querySelector(".fa-times").className="fas fa-times"
+                            document.querySelector(".fa-times").style.color="black"
+                        },
+                        error:function(data){
+                            $(".alert").css("display","block")
+                        }
+                    
+                    })
+                }
+        })
+        $(".star").on("click",function(){
+            const user = window.location.pathname.split("/")[2]
+            console.log(this)
+            if(this.className == "far fa-star star"){
+                $.ajax({
+                    
+                        url: `/star/${user}/`,
+                        method: "get",
+                        success: function (data) {
+                            document.querySelector(".fa-star").className="fas fa-star"
+                            
+                        },
+                        error:function(data){
+                            $(".alert").css("display","block")
+                        }
+                    
+                    })
+                }
+        })
         $("#schedule").on("click", function () {
 
             const user = window.location.pathname.split("/")[2]
