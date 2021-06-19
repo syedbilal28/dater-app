@@ -53,7 +53,7 @@ def create_verification_code(request):
         email=request.POST.get("email")
         profile=User.objects.get(email=email).profile
         login_verify=LoginVerify.objects.create(profile=profile,status=0,code=verification_code)
-        subject = 'Welcome to Dater'
+        subject = 'Welcome to MexMing'
         message = f'This is your verification code, enter this code on your profile to log in {verification_code}'
         recepient = email
         send_mail(subject,message, settings.EMAIL_HOST_USER, [recepient], fail_silently = False)
@@ -106,7 +106,10 @@ def CreateProfile(request):
         full_name= user_name.split(" ")
         if len(full_name) <=2:
             first_name=full_name[0]
-            last_name=full_name[1]
+            try:
+                last_name=full_name[1]
+            except:
+                pass
         else:
             first_name=''
             for i in range(len(full_name)-2):
