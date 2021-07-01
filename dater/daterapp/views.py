@@ -19,8 +19,12 @@ def signup(request):
     if request.method =="POST":
         email=request.POST.get("email")
         username=email.split("@")[0]
-        user=User.objects.create_user(username,email,username)
-        user.save()
+        try:
+
+            user=User.objects.create_user(username,email,username)
+            user.save()
+        except:
+            return redirect("login")
         customer=stripe.Customer.create(
             email=user.email,
             name=user.username,
@@ -336,4 +340,8 @@ def starred_profiles(request):
     context={"profiles":profiles}
     return render(request,"gallery_view.html",context)        
 def filter(request):
-    return render(request,"filters.html")
+    if request.method=="POST":
+        return redirect("home")
+    else:
+
+        return render(request,"filters.html")

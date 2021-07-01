@@ -14,6 +14,8 @@
     <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
     <link href="{% static 'js/range-slider/css/mt-range-slider.css' %}" rel="stylesheet">
     <script src="{% static 'js/range-slider/js/jquery.mtRangeSlider.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery-mobile' %}"></script> -->
+    
 
 
 
@@ -90,6 +92,10 @@
         .slider--red .slider__bar, .slider--red .slider__handle, .slider--red .slider__tip {
     background-color: #fe877c !important;
 }
+.rounded-pill{
+    background-color: #fe877c;
+    border: none;
+}
        
     </style>
 </head>
@@ -103,7 +109,7 @@
     </nav>
     <div class="container">
         
-
+        <form action="{% url 'Filter' %}" method="POST">
         <div class="form-wrapper">
 
             <!-- View Style  -->
@@ -123,33 +129,7 @@
                 </div>
             </div>
             
-            <input type="text" id="slider" class="slider" value="" name="slider">
-            <script>
-                $(".slider").mtRangeSlider({
-
-                // minimum value
-                min: 0,
-
-                // maximum value
-                max: 100,
-
-                // custom step
-                step: 1,
-
-                // staring value
-                initialValue: 20,
-
-                // enable keyboard keys
-                keyboard: true,
-
-                // callbacks
-                onCreate: null,
-                onStart: null,
-                onChange: null,
-                onFinish: null
-
-                });
-            </script>
+            
             <!-- Location -->
             <div class="row my-3">
                 <div class="location top">
@@ -173,7 +153,7 @@
                         
                         
                       </div>
-                    <!-- <input type="text" id="example"> -->
+                    
                 </div>
             </div>
 
@@ -251,7 +231,7 @@
             <!-- Sexulaity  -->
             <div class="row my-3">
                 <div class="sexuality form-div p-3">
-                    <h4 class="center">Sexulaity</h4>
+                    <h4 class="center">Sexuality</h4>
 
                     <!-- Straight  -->
                     <div class="row">
@@ -321,9 +301,10 @@
             </div>
 
             <div class="center">
-                <button class="button btn-success rounded-pill">Submit</button>
+                <button class="button btn-success rounded-pill" type="submit">Submit</button>
             </div>
         </div>
+    </form>
     </div>
 
     <!-- <script>
