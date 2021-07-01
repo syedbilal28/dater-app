@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="jQuery.inputSliderRange.min.js"></script>
+    
+    <script src="https://kit.fontawesome.com/260e5e3e40.js" crossorigin="anonymous"></script>
+    <link href="{% static 'js/range-slider/css/mt-range-slider.css' %}" rel="stylesheet">
+    <script src="{% static 'js/range-slider/js/jquery.mtRangeSlider.js' %}"></script>
+
+
+
 
     <title>Filters</title>
     <style>
@@ -58,51 +66,43 @@
             margin: auto;
             background-color: #f2f2f2;
         }
-
-        /* .slidecontainer {
-  width: 100%;
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 25px;
-  background: #d3d3d3;
+        .fas{
+            font-size: 20px;
+        }
+        .inp{
+            width: 100%;
+            /* background-color: #fe877c; */
+            overflow: hidden;
+      
+            /* /* -webkit-appearance: none; */
+            height: 10px; 
+            /* background-color: #9a905d; */
+            background: linear-gradient(to right, #fe877c 0%, #fe877c 50%, #fff 50%, #fff 100%);
+            
+  /* border: solid 1px #82CFD0; */
+  border-radius: 8px;
+  height: 7px;
+  /* width: 356px; */
   outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
+  transition: background 450ms ease-in;
   -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  background: #04AA6D;
-  cursor: pointer;
+        }
+        .slider--red .slider__bar, .slider--red .slider__handle, .slider--red .slider__tip {
+    background-color: #fe877c !important;
 }
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  background: #04AA6D;
-  cursor: pointer;
-} */
+       
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="nav-bar">
-            <nav>
-                <a href="#">Back</a>
-                <p>Filters</p>
-            </nav>
+    <nav class="row p-2 py-4">
+        <div class="col-2 text-left small"><i class="fas fa-arrow-left btns"></i></div>
+        <div class="col-8 text-center">
+            <h4>Discover</h4>
         </div>
+        <div class="col-2 text-right small"></div>
+    </nav>
+    <div class="container">
+        
 
         <div class="form-wrapper">
 
@@ -110,17 +110,53 @@
             <div class="row">
                 <div class="view-style top">
                     <h4>View Style</h4>
-                    <input type="radio" name="view-style" id="style" class="mr-2"><span class="mr-4">Classic</span> 
-                    <input type="radio" name="view-style" id="style" class="mr-2"><span class="mr-4">Gallery</span>
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="radio" name="view-style" id="style" class="mx-1"><span class="mr-4">Classic</span>
+                        </div>
+                        <div class="col-4">
+                            <input type="radio" name="view-style" id="style" class="mx-1"><span class="mr-4">Gallery</span>
+                         </div>
+                    </div>
+                     
+                    
                 </div>
             </div>
+            
+            <input type="text" id="slider" class="slider" value="" name="slider">
+            <script>
+                $(".slider").mtRangeSlider({
 
+                // minimum value
+                min: 0,
+
+                // maximum value
+                max: 100,
+
+                // custom step
+                step: 1,
+
+                // staring value
+                initialValue: 20,
+
+                // enable keyboard keys
+                keyboard: true,
+
+                // callbacks
+                onCreate: null,
+                onStart: null,
+                onChange: null,
+                onFinish: null
+
+                });
+            </script>
             <!-- Location -->
             <div class="row my-3">
                 <div class="location top">
                     <h4>Location</h4>
                     <div class="section-border pl-3 pt-1">
                         <p>Current Location</p>
+                        
                     </div>
                 </div>
             </div>
@@ -129,9 +165,15 @@
             <div class="row my-3">
                 <div class="distance form-div">
                     <h4>Distance</h4>
-                    <label for="customRange1" class="form-label">Example range</label>
+                    
                     <!-- <input type="range" class="form-range" id="customRange1"> -->
-                    <input type="text" id="example">
+                    <div class="slidecontainer">
+                        
+                        <input type="range" min="1" max="100" value="50" class="inp">
+                        
+                        
+                      </div>
+                    <!-- <input type="text" id="example"> -->
                 </div>
             </div>
 
@@ -293,14 +335,14 @@
             step: 1
         })
     </script> -->
-
+    
     <script>
-        $('#example').inputSliderRange()
+        document.querySelector(".inp").oninput = function() {
+  var value = (this.value-this.min)/(this.max-this.min)*100
+  this.style.background = 'linear-gradient(to right, #fe877c 0%, #fe877c ' + value + '%, #fff ' + value + '%, white 100%)'
+};
 
-        // var element = document.getElementById('range-input');
-        //     element.addEventListener('touchmove', function(event){
-        //         event.preventDefault();
-        // });
+        
     </script>
 </body>
 </html>

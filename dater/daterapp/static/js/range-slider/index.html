@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" class="no-touch">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Range Slider Full Demo</title>
+
+    <meta name="description" content="Full demo for MT-RangeSlider.">
+
+    <script>
+        (function (win, doc, nav) {
+            if (('ontouchstart' in win) || (nav.maxTouchPoints && nav.maxTouchPoints > 0)) {
+                doc.documentElement.className = doc.documentElement.className.replace(/\bno-touch\b/, 'touch');
+            }
+        }(window, document, navigator));
+    </script>
+
+    <link href="css/mt-range-slider.css" rel="stylesheet">
+    <link href="css/slider-demo.css" rel="stylesheet">
+
+    <!--[if IE 9]>
+        <link href="css/slider-demo-IE9.css" rel="stylesheet">
+    <![endif]-->
+
+    <!--[if lte IE 8]>
+        <link href="css/slider-demo-IE8.css" rel="stylesheet">
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- This page only supports IE9 and higher (which are the versions supported by jQuery 2) -->
+    <!--[if lte IE 8]>
+        <div class="ie_warning">
+            <div>
+                <img src="images/dialog-warning.gif" width="16" height="16" alt=""/>
+                My apologies. The Range Slider plugin is not compatible with older versions of Internet Explorer.
+            </div>
+        </div>
+    <![endif]-->
+    <div class="container">
+        <h1>Mouse Touch Range Slider</h1>
+        <div id="color-container" class="color-container">
+            <div id="color-result" class="color-result">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="hex-c">HEX: #</label>
+                        </td>
+                        <td>
+                            <input id="hex-c" class="input-6" maxlength="6" type="text" tabindex="1" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="c-r">RGB:</label>
+                        </td>
+                        <td>
+                            <input id="c-r" maxlength="3" class="input-4" type="text" tabindex="2" />
+                            <input id="c-g" maxlength="3" class="input-4" type="text" tabindex="3" />
+                            <input id="c-b" maxlength="3" class="input-4" type="text" tabindex="4" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="ctrl red">
+                <p class="slider-label">Red</p>
+                <input type="text" id="c-red" class="color-slider" value="" name="c-red" tabindex="5" />
+            </div>
+            <div class="ctrl green">
+                <p class="slider-label">Green</p>
+                <input type="text" id="c-green" class="color-slider" value="" name="c-green" tabindex="6" />
+            </div>
+            <div class="ctrl blue">
+                <p class="slider-label">Blue</p>
+                <input type="text" id="c-blue" class="color-slider" value="" name="c-blue" tabindex="7" />
+            </div>
+            <div class="ctrl hue">
+                <p class="slider-label">Hue (&deg;)</p>
+                <input type="text" id="c-hue" class="hue-slider" value="" name="c-hue" tabindex="8" />
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g==" crossorigin="anonymous"></script>
+    <script src="js/jquery.mtRangeSlider.js"></script>
+    <script src="js/slider-demo.js"></script>
+</body>
+
+</html>

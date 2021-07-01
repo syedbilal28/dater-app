@@ -22,6 +22,7 @@ urlpatterns=[
     path("dislike/<str:username>/",views.dislike,name="dislike"),
     path("star/<str:username>/",views.star,name="star"),
     path("liked/",views.liked_profiles,name="LikedProfiles"),
-    path("starred/",views.starred_profiles,name="StarredProfiles")
+    path("starred/",views.starred_profiles,name="StarredProfiles"),
+    path("filter/",views.filter,name="Filter")
 
 ]

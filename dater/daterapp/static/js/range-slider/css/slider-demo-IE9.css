@@ -1,0 +1,40 @@
+/* =======================================================================
+ * slider-demo-IE9.css
+ * Version: 1.0
+ * Date: 2016/04/29
+ * By: Rich DeBourke
+ * License: MIT
+ * GitHub: https://github.com/RichDeBourke/mouse-touch-range-slider
+ * ======================================================================= */
+
+.rs-track {
+    background-image: url('../images/Slider_bgd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 96px;
+    border: 1px solid #333;
+}
+
+.red .rs-track {
+    background-position: 0 0;
+    background-color: transparent;
+}
+
+.green .rs-track {
+    background-position: 0 -16px;
+    background-color: transparent;
+}
+
+.blue .rs-track {
+    background-position: 0 -32px;
+    background-color: transparent;
+}
+
+.hue .rs-track {
+    background: none;
+    background-image: url('../images/Slider_bgd.png');
+    background-repeat: no-repeat;
+    background-size: 100% 96px;
+    background-position: 0 -48px;
+    filter: none;
+    border-radius: 16px;
+}

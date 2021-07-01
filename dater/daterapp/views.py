@@ -335,3 +335,5 @@ def starred_profiles(request):
         profiles.append(star.starred)
     context={"profiles":profiles}
     return render(request,"gallery_view.html",context)        
+def filter(request):
+    return render(request,"filters.html")

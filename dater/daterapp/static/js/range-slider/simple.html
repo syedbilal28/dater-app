@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en" class="no-touch">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simple Range Slider Demo</title>
+
+    <meta name="description" content="Simple demo for MT-RangeSlider">
+
+    <script>
+        (function (win, doc, nav) {
+            if (('ontouchstart' in win) || (nav.maxTouchPoints && nav.maxTouchPoints > 0)) {
+                doc.documentElement.className = doc.documentElement.className.replace(/\bno-touch\b/, 'touch');
+            }
+        }(window, document, navigator));
+    </script>
+
+    <style>
+        /* page styles */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            font-family: sans-serif;
+            color: #212121;
+            font-size: small;
+            font-weight: 400;
+            height: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 8px;
+        }
+
+        input {
+            border-style: solid;
+            border-color: #585858;
+            border-width: 1px;
+            font-family: 'Open Sans', sans-serif;
+            color: #000000;
+            text-align: center;
+            padding: 2px;
+            height: 26px;
+            -webkit-box-sizing: border-box;
+            /* Safari/Chrome, other WebKit */
+            -moz-box-sizing: border-box;
+            /* Firefox, other Gecko */
+            box-sizing: border-box;
+            /* Opera/IE 8+ */
+            background-color: #fcfcfc;
+        }
+
+        /* style to prevent iOS from rounding corners and styling input boxes */
+        input:not([type="radio"]):not([type="checkbox"]) {
+            -webkit-appearance: none;
+            border-radius: 0;
+        }
+
+        .container {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 5px;
+            background-color: White;
+            border: 1px solid #585858;
+        }
+
+        .ctrl {
+            margin: 0 auto 0 auto;
+            position: relative;
+        }
+
+        .touch .ctrl {
+            margin-top: 6px;
+        }
+
+        /* MT-RangeSlider styles */
+        .rs-hidden-input {
+            display: none;
+        }
+
+        .rs {
+            position: relative;
+            display: block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            z-index: 1;
+        }
+
+        /* Configurable design related properties */
+        .no-touch .rs {
+            height: 50px;
+        }
+
+        .touch .rs {
+            height: 54px;
+        }
+
+        .rs-track {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            z-index: 2;
+            outline: none;
+            /* Configurable design related properties */
+            border: none;
+            border-radius: 16px;
+        }
+
+        /* Configurable design related properties */
+        .no-touch .rs-track {
+            height: 16px;
+            top: 17px;
+        }
+
+        .touch .rs-track {
+            height: 48px;
+            top: 1px;
+        }
+
+        .red .rs-track {
+            background-color: #ff0000;
+        }
+
+        .rs-slider {
+            position: absolute;
+            display: block;
+            cursor: default;
+            z-index: 3;
+            /* Configurable design related properties */
+            border: 1px solid #8a8a8a;
+            background: #CCDBE6; /* Old browsers */
+            background: -moz-linear-gradient(top, #CCDBE6 0%, #637780 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #CCDBE6 0%,#637780 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #CCDBE6 0%,#637780 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            -moz-border-radius: 15px;
+            border-radius: 15px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background 200ms ease;
+        }
+
+        /* Configurable design related properties */
+        .no-touch .rs-slider {
+            top: 9px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .touch .rs-slider {
+            top: 1px;
+            width: 46px;
+            height: 46px;
+        }
+
+        .slider-dragging {
+            cursor: pointer;
+        }
+
+        .rs-slider:hover {
+            background: #A3AFB8; /* Old browsers */
+            background: -moz-linear-gradient(-45deg, #A3AFB8 0%, #455359 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(-45deg, #A3AFB8 0%,#455359 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(135deg, #A3AFB8 0%,#455359 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        }
+
+        .rs-slider:focus {
+            outline: 0;
+            background: #FFFFFF; /* Old browsers */
+            background: -moz-linear-gradient(45deg, #C7EEFF 0%, #FFFFFF 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(45deg, #C7EEFF 0%,#FFFFFF 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(45deg, #C7EEFF 0%,#FFFFFF 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        }
+
+        .ie_warning {
+            position: static;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            background-color: #fdf2ab;
+            border-bottom: 1px solid #A29330;
+            border-top-width: 0;
+        }
+
+        .ie_warning div {
+            width: 960px;
+            line-height: 16px;
+            font-size: medium;
+            margin: 0 auto 0 auto;
+            padding: 6px 0 6px 0;
+            text-align: center;
+        }
+
+        .ie_warning img {
+            padding-right: 6px;
+            vertical-align: top;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- This page only supports IE9 and higher (which are the versions supported by jQuery 2) -->
+    <!--[if lte IE 8]>
+        <div class="ie_warning">
+            <div>
+                <img src="images/dialog-warning.gif" width="16" height="16" alt=""/>
+                My apologies. The Range Slider plugin is not compatible with older versions of Internet Explorer.
+            </div>
+        </div>
+    <![endif]-->
+    <div class="container">
+        <h1>Simple Range Slider</h1>
+        <p>
+            Demo of the range slider plugin&rsquo;s general operation.
+        </p>
+        <p>
+            Entering a value between 0 and 255 into the text box will move the slider.
+        </p>
+        <p>
+            Moving the slider, clicking on the track, or using the arrow keys will change the value in the text box.
+        </p>
+        <p>
+            The demo includes the minimum JavaScript code to operate the slider. There is no checking such as verifying the input value is valid.
+        </p>
+    </div>
+    <div class="container">
+        <label for="red-value">Slider Value:</label>
+        <input id="red-value" maxlength="3" size="3" type="text" tabindex="1" />
+        <div class="ctrl red">
+            <input type="text" id="red-slider" class="slider" value="" name="slider" tabindex="2" />
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g==" crossorigin="anonymous"></script>
+    <script src="js/jquery.mtRangeSlider.js"></script>
+    <script>
+        var sliderHandle; // Handle for positioning Slider
+        var sliderElement; // Handle for getting SliderHandle values
+        var inputValue; // Handle for getting & setting the value for the input boxes
+
+        function inputBoxChanged() {
+            sliderHandle.update(inputValue.value);
+        }
+
+        function sliderMoved(sliderDataObject) {
+            inputValue.value = sliderElement.value;
+        }
+
+        $(document).ready(function (sliderDataObject) {
+            $(".slider").mtRangeSlider({
+                min: 0,
+                max: 255,
+                initialValue: 127,
+                onChange: sliderMoved
+            });
+
+            $("#red-value").val("127").on("focus", function () {this.select();}).change(inputBoxChanged);
+
+            sliderHandle = $("#red-slider").data("mtRangeSlider"); // Handle for positioning Slider
+            sliderElement = document.getElementById("red-slider"); // Handle for getting SliderHandle values
+            inputValue = document.getElementById("red-value"); // Handle for getting & setting the value for the input box
+        });
+    </script>
+</body>
+
+</html>

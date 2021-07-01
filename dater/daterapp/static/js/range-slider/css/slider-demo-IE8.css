@@ -1,0 +1,52 @@
+/* =======================================================================
+ * slider-demo-IE8.css
+ * Version: 1.0
+ * Date: 2016/04/29
+ * By: Rich DeBourke
+ * License: MIT
+ * GitHub: https://github.com/RichDeBourke/mouse-touch-range-slider
+ * ======================================================================= */
+
+body {
+    background-image: url('../images/Old-IE.png');
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+
+.ie_warning {
+    position: static;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    background-color: #fdf2ab;
+    border-bottom: 1px solid #A29330;
+    border-top-width: 0;
+}
+
+    .ie_warning div {
+        width: 960px;
+        line-height: 16px;
+        font-size: medium;
+        margin: 0 auto 0 auto;
+        padding: 6px 0 6px 0;
+        text-align: center;
+    }
+
+    .ie_warning img {
+        padding-right: 6px;
+        vertical-align: top;
+    }
+
+.navigation {
+    display: none;
+}
+
+.navigation-container {
+    display: none;
+}
+
+.top-section, .middle-section, .bottom-section, .container, h2, .content, .center, .footer {
+    display: none;
+}

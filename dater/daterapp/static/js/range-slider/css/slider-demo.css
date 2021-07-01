@@ -1,0 +1,116 @@
+/* =======================================================================
+ * slider-demo.css
+ * Version: 1.0
+ * Date: 2016/04/29
+ * By: Rich DeBourke
+ * License: MIT
+ * GitHub: https://github.com/RichDeBourke/mouse-touch-range-slider
+ * ======================================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #FFFFFF;
+    font-family: sans-serif;
+    color: #212121;
+    font-size: small;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: 400;
+    color: #0024A7;
+    text-align: center;
+    margin: 8px 0 8px 0;
+}
+
+input {
+    border-style: solid;
+    border-color: #585858;
+    border-width: 1px;
+    font-family: 'Open Sans', sans-serif;
+    color: #000000;
+    text-align: center;
+    padding: 2px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+    background-color: #fcfcfc;
+}
+
+/* style to prevent iOS from rounding corners and styling input boxes */
+input:not([type="radio"]):not([type="checkbox"]) {
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+.input-4 {
+    width: 50px;
+}
+
+.input-6 {
+    width: 65px;
+}
+
+.no-touch .input-4, .no-touch .input-6 {
+    height: 26px;
+}
+.touch .input-4, .touch .input-6 {
+    height: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 3px 2px 3px 2px;
+}
+
+.container {
+    width: 100%;
+}
+
+.color-container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 5px;
+    background-color: White;
+    border: 1px solid #585858;
+}
+
+.color-result {
+    color: #000000;
+    margin-bottom: 6px;
+}
+
+.no-touch .ctrl {
+    margin: 0 auto 0 auto;
+    position: relative;
+}
+
+.touch .ctrl {
+    height: 54px;
+    position: relative;
+}
+
+.touch .rs {
+    float: right;
+    height: 54px;
+    width: 250px;
+}
+
+.slider-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-bottom: 0;
+}
