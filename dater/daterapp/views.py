@@ -176,7 +176,10 @@ def ProfileView(request,username):
             profile=i
             break
     # profile=profiles.filter(user=user)
-    distance=Distance(profile.location,request.user.profile.location)
+    try:
+        distance=Distance(profile.location,request.user.profile.location)
+    except:
+        distance=0
     # distance=0.11
     likes= Like.objects.filter(liked_by=request.user.profile)
     liked_profile=False
