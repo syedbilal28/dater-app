@@ -125,8 +125,11 @@ def CreateProfile(request):
         profile.dob= datetime.strptime(dob,"%Y-%m-%d")
         profile.gender=gender
         profile.sexuality=sexuality
-        location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-        profile.location=location
+        try:
+            location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+            profile.location=location
+        except:
+            pass
         profile.save()
         user.save()
         return redirect("AddPhotos")
